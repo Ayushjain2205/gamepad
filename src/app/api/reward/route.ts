@@ -81,8 +81,12 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ txHash });
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    return NextResponse.json({ error: e.message }, { status: 400 });
+    if (e instanceof Error) {
+      return NextResponse.json({ error: e.message }, { status: 400 });
+    } else {
+      return NextResponse.json({ error: "An unknown error occurred" }, { status: 400 });
+    }
   }
 }
