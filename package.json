@@ -17,13 +17,15 @@
     "@worldcoin/minikit-js": "latest",
     "@worldcoin/minikit-react": "latest",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.2",
     "iconoir-react": "^7.11.0",
     "next": "15.2.3",
     "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.2.0",
-    "viem": "2.23.5"
+    "viem": "^2.23.5",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
