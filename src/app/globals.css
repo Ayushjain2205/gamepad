@@ -19,6 +19,14 @@
   --color-text-muted: #ffffffcc;
 }
 
+/* Pixelated icon styling for retro theme */
+.pixelated-icon {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  filter: contrast(1.2) brightness(0.9);
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

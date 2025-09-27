@@ -461,7 +461,7 @@ root.render(<App />);`,
             }}
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -485,7 +485,7 @@ root.render(<App />);`,
             }}
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -509,7 +509,7 @@ root.render(<App />);`,
             }}
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

@@ -45,7 +45,7 @@ export default async function WalletPage() {
             className="hover:scale-110 transition-transform text-text"
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -65,7 +65,7 @@ export default async function WalletPage() {
             className="hover:scale-110 transition-transform text-text"
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -85,7 +85,7 @@ export default async function WalletPage() {
             className="hover:scale-110 transition-transform text-text"
           >
             <svg
-              className="w-7 h-7"
+              className="w-7 h-7 pixelated-icon"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
