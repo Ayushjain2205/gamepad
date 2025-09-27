@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
+import WelcomePopup from "@/components/WelcomePopup";
 import Link from "next/link";
 
 interface Game {
@@ -32,6 +33,7 @@ export default function TikTokFeed() {
     useState(false);
   const [isGameLoading, setIsGameLoading] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -56,6 +58,8 @@ export default function TikTokFeed() {
         console.error("Error fetching games:", error);
       } finally {
         setIsLoading(false);
+        // Show welcome popup after games are loaded
+        setShowWelcomePopup(true);
       }
     };
 
@@ -652,6 +656,12 @@ root.render(<App />);`,
           </div>
         </div>
       )}
+
+      {/* Welcome Popup */}
+      <WelcomePopup
+        isVisible={showWelcomePopup}
+        onClose={() => setShowWelcomePopup(false)}
+      />
     </div>
   );
 }
