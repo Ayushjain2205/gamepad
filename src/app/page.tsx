@@ -31,8 +31,17 @@ export default function TikTokFeed() {
   const [isUIOpacityTransitioning, setIsUIOpacityTransitioning] =
     useState(false);
   const [isGameLoading, setIsGameLoading] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Sample game level leaderboard data
+  const leaderboardData = [
+    { name: "Alice", points: 1250 },
+    { name: "Bob", points: 980 },
+    { name: "Charlie", points: 750 },
+    { name: "Diana", points: 620 },
+  ];
 
   // Fetch all games
   useEffect(() => {
@@ -294,7 +303,10 @@ export default App;`;
             }}
           >
             {/* Leaderboard Icon */}
-            <button className="hover:scale-110 transition-transform text-text">
+            <button
+              onClick={() => setShowLeaderboard(true)}
+              className="hover:scale-110 transition-transform text-text"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -509,6 +521,89 @@ root.render(<App />);`,
               transparent 50%)`,
           }}
         />
+      )}
+
+      {/* Leaderboard Popup */}
+      {showLeaderboard && (
+        <div
+          className="fixed inset-0 bg-[#00000090] flex items-center justify-center z-50"
+          onClick={() => setShowLeaderboard(false)}
+        >
+          <div
+            className="max-w-sm w-full mx-4 relative"
+            style={{
+              background: "#0d1117",
+              border: "3px solid #00e5ff",
+              boxShadow:
+                "0px 0px 20px rgba(0, 229, 255, 0.5), inset 0px 0px 20px rgba(0, 229, 255, 0.1)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center p-4 border-b-2 border-cyan-400">
+              <div>
+                <h2 className="font-heading text-2xl font-bold text-white">
+                  🏆 HIGH SCORES
+                </h2>
+                <p className="font-heading text-sm text-cyan-400">
+                  {displayGame?.name || "GAME"}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowLeaderboard(false)}
+                className="font-heading text-2xl text-cyan-400 hover:text-white transition-colors"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Player List */}
+            <div className="p-4 space-y-2">
+              {leaderboardData.map((player, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between items-center p-3 border-2"
+                  style={{
+                    background: index === 0 ? "#1e2a47" : "#0d1117",
+                    borderColor: index === 0 ? "#00e5ff" : "#1e2a47",
+                    boxShadow:
+                      index === 0
+                        ? "0px 0px 10px rgba(0, 229, 255, 0.3)"
+                        : "none",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="font-heading text-lg">
+                      {index === 0
+                        ? "🥇"
+                        : index === 1
+                        ? "🥈"
+                        : index === 2
+                        ? "🥉"
+                        : `#${index + 1}`}
+                    </span>
+                    <span className="font-heading text-lg font-bold text-white">
+                      {player.name}
+                    </span>
+                  </div>
+                  <span
+                    className="font-display text-lg font-bold"
+                    style={{ color: index === 0 ? "#00e5ff" : "#a0f0d0" }}
+                  >
+                    {player.points.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t-2 border-cyan-400">
+              <p className="font-heading text-sm text-center text-cyan-400">
+                BEAT THE HIGH SCORE!
+              </p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
