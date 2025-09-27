@@ -54,7 +54,7 @@ export default function CreatePage() {
             <button
               onClick={handleCreateGame}
               disabled={isCreating}
-              className="w-full bg-accent hover:bg-accent/80 disabled:bg-accent/50 text-bg font-medium py-3 px-6 rounded-lg transition-colors duration-200 font-display"
+              className="w-full pixelated-button font-medium py-3 px-6 transition-colors duration-200 font-display disabled:opacity-50"
             >
               {isCreating ? "Creating..." : "Start Creating"}
             </button>
@@ -100,39 +100,21 @@ export default function CreatePage() {
             href="/"
             className="hover:scale-110 transition-transform text-text"
           >
-            <svg
-              className="w-7 h-7 pixelated-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
+            <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 16 16">
+              <rect x="6" y="2" width="4" height="4" />
+              <rect x="2" y="6" width="4" height="4" />
+              <rect x="10" y="6" width="4" height="4" />
+              <rect x="4" y="10" width="8" height="4" />
             </svg>
           </a>
 
-          {/* Create Icon */}
-          <a
-            href="/create"
-            className="hover:scale-110 transition-transform text-text"
-          >
-            <svg
-              className="w-7 h-7 pixelated-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+          {/* Create Button */}
+          <a href="/create" className="hover:scale-110 transition-transform">
+            <div className="pixelated-button px-3 py-1">
+              <span className="text-[#202040] font-heading text-sm font-bold">
+                Create
+              </span>
+            </div>
           </a>
 
           {/* Wallet Icon */}
@@ -140,18 +122,11 @@ export default function CreatePage() {
             href="/wallet"
             className="hover:scale-110 transition-transform text-text"
           >
-            <svg
-              className="w-7 h-7 pixelated-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-              />
+            <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 16 16">
+              <rect x="2" y="6" width="12" height="2" />
+              <rect x="3" y="8" width="10" height="6" />
+              <rect x="5" y="10" width="2" height="2" />
+              <rect x="9" y="10" width="2" height="2" />
             </svg>
           </a>
         </div>

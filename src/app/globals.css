@@ -19,12 +19,32 @@
   --color-text-muted: #ffffffcc;
 }
 
-/* Pixelated icon styling for retro theme */
-.pixelated-icon {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-  filter: contrast(1.2) brightness(0.9);
+/* Pixelated button styling */
+.pixelated-button {
+  color: #000000;
+  background-color: #a0f0d0;
+  border: 0;
+  border-radius: 0;
+  font-family: "VT323", monospace;
+  cursor: pointer;
+  box-shadow: 0px 5px #ffffff, 0px -5px #ffffff, 5px 0px #ffffff,
+    -5px 0px #ffffff, 0px 10px #00000038, 5px 5px #00000038, -5px 5px #00000038,
+    inset 0px 5px #ffffff36;
+  transition: transform 0.1s ease;
+}
+
+.pixelated-button:hover {
+  transform: translateY(1px);
+}
+
+.pixelated-button:active {
+  transform: translateY(5px);
+  box-shadow: 0px 5px #ffffff, 0px -5px #ffffff, 5px 0px #ffffff,
+    -5px 0px #ffffff, inset 0px 5px #00000038;
+}
+
+.pixelated-button:focus {
+  outline: none;
 }
 
 @media (prefers-color-scheme: dark) {
