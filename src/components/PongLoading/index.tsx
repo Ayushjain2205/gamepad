@@ -171,7 +171,7 @@ export default function PongLoading({
       });
 
       setPaddle2((prevPaddle) => {
-        let newPaddle = { ...prevPaddle };
+        const newPaddle = { ...prevPaddle };
 
         // Move paddle towards ball with some lag (using ball ref)
         const currentBall = ballRef.current;
@@ -204,7 +204,7 @@ export default function PongLoading({
     if (!gameStarted) return;
 
     setPaddle1((prevPaddle) => {
-      let newPaddle = { ...prevPaddle };
+      const newPaddle = { ...prevPaddle };
 
       // Direct position control - much smoother
       const targetY = mouseY - newPaddle.height / 2;

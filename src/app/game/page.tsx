@@ -21,7 +21,7 @@ interface Game {
 }
 
 export default function GamePage() {
-  const [games, setGames] = useState<Game[]>([]);
+  const [, setGames] = useState<Game[]>([]);
   const [currentGame, setCurrentGame] = useState<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isGameLoading, setIsGameLoading] = useState(false);
