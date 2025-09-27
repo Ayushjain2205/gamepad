@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
+import SnakeLoading from "@/components/SnakeLoading";
 
 interface Game {
   id: string;
@@ -196,10 +197,7 @@ export default function TikTokFeed() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
-          <p className="text-text text-lg font-display">Loading games...</p>
-        </div>
+        <SnakeLoading text="Loading games..." size="large" />
       </div>
     );
   }
@@ -341,12 +339,7 @@ export default App;`;
           {/* Game Loading Overlay */}
           {isGameLoading && (
             <div className="absolute inset-0 bg-bg flex items-center justify-center z-20">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-2"></div>
-                <p className="text-text text-sm font-display">
-                  Loading game...
-                </p>
-              </div>
+              <SnakeLoading text="Loading game..." size="medium" />
             </div>
           )}
 
