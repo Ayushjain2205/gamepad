@@ -198,7 +198,7 @@ export default function TikTokFeed() {
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-white text-lg">Loading games...</p>
+          <p className="text-white text-lg font-display">Loading games...</p>
         </div>
       </div>
     );
@@ -208,8 +208,10 @@ export default function TikTokFeed() {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl text-white mb-4">No games available</h1>
-          <p className="text-gray-400">Check back later!</p>
+          <h1 className="text-2xl text-white mb-4 font-heading">
+            No games available
+          </h1>
+          <p className="text-gray-400 font-display">Check back later!</p>
         </div>
       </div>
     );
@@ -273,7 +275,7 @@ export default App;`;
             </div>
             <div>
               <h1
-                className="text-xl font-bold text-white transition-all duration-300 ease-out"
+                className="text-xl font-bold text-white font-heading transition-all duration-300 ease-out"
                 style={{
                   opacity: isUIOpacityTransitioning ? 0.2 : 1,
                   transform: isTransitioning
@@ -310,7 +312,10 @@ export default App;`;
             </button>
 
             {/* Remix Button */}
-            <button className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors duration-200">
+            <button
+              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors duration-200"
+              style={{ fontFamily: "var(--font-share-tech-mono)" }}
+            >
               Remix
             </button>
           </div>
@@ -341,7 +346,9 @@ export default App;`;
             <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-20">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-                <p className="text-white text-sm">Loading game...</p>
+                <p className="text-white text-sm font-display">
+                  Loading game...
+                </p>
               </div>
             </div>
           )}
@@ -406,10 +413,10 @@ root.render(<App />);`,
             <div className="w-full h-full bg-gray-800 flex items-center justify-center">
               <div className="text-center text-white">
                 <div className="text-2xl mb-2">🎮</div>
-                <div className="text-lg font-semibold">
+                <div className="text-lg font-semibold font-heading">
                   {games[currentIndex + 1].name}
                 </div>
-                <div className="text-sm opacity-70">Next Game</div>
+                <div className="text-sm opacity-70 font-display">Next Game</div>
               </div>
             </div>
           </div>
@@ -429,10 +436,12 @@ root.render(<App />);`,
             <div className="w-full h-full bg-gray-800 flex items-center justify-center">
               <div className="text-center text-white">
                 <div className="text-2xl mb-2">🎮</div>
-                <div className="text-lg font-semibold">
+                <div className="text-lg font-semibold font-heading">
                   {games[currentIndex - 1].name}
                 </div>
-                <div className="text-sm opacity-70">Previous Game</div>
+                <div className="text-sm opacity-70 font-display">
+                  Previous Game
+                </div>
               </div>
             </div>
           </div>
@@ -450,7 +459,9 @@ root.render(<App />);`,
               transform: isTransitioning ? "translateY(-5px)" : "translateY(0)",
             }}
           >
-            <div className="text-sm text-gray-400">Swipe up for next game</div>
+            <div className="text-sm text-gray-400 font-display">
+              Swipe up for next game
+            </div>
             <div className="flex space-x-1">
               {games.map((_, index) => (
                 <div
