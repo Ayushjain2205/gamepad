@@ -188,6 +188,7 @@ export const flappyBirdGame: GameDefinition = {
         left: "50%",
         transform: "translateX(-50%)",
         fontSize: "28px",
+        fontFamily: "Arial, sans-serif",
         fontWeight: "bold",
         color: "white",
         textShadow: "2px 2px 4px rgba(0,0,0,0.5)",

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
+import PongLoading from "@/components/PongLoading";
 import RemixBottomSheet from "@/components/RemixBottomSheet";
 import Link from "next/link";
 
@@ -35,27 +36,53 @@ export default function RemixedPage() {
     paidPlay: false,
   });
 
-  // Get game data from sessionStorage
+  // Call create-remix API when page loads
   useEffect(() => {
-    const storedGame = sessionStorage.getItem("currentRemixGame");
-
-    if (storedGame) {
+    const createRemix = async () => {
       try {
-        const gameData = JSON.parse(storedGame);
-        console.log("Remix game loaded from sessionStorage:", gameData);
-        setRemixGame(gameData);
-        setIsGameLoading(true);
+        // Get remix parameters from sessionStorage
+        const remixParamsString = sessionStorage.getItem("remixParams");
 
-        // Clear the stored game after loading
-        sessionStorage.removeItem("currentRemixGame");
+        if (!remixParamsString) {
+          console.log("No remix parameters found");
+          setIsLoading(false);
+          return;
+        }
+
+        const remixParams = JSON.parse(remixParamsString);
+        console.log("Creating remix with parameters:", remixParams);
+
+        // Clear the parameters from sessionStorage
+        sessionStorage.removeItem("remixParams");
+
+        // Call the create-remix API
+        const response = await fetch("/api/create-remix", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(remixParams),
+        });
+
+        if (response.ok) {
+          const remixGame = await response.json();
+          console.log("Remix created successfully:", remixGame);
+          setRemixGame(remixGame);
+          setIsGameLoading(true);
+        } else {
+          const error = await response.json();
+          console.error("Failed to create remix:", error);
+          alert("Failed to create remix. Please try again.");
+        }
       } catch (error) {
-        console.error("Error parsing remix game data:", error);
+        console.error("Error creating remix:", error);
+        alert("An error occurred while creating the remix. Please try again.");
       } finally {
         setIsLoading(false);
       }
-    } else {
-      setIsLoading(false);
-    }
+    };
+
+    createRemix();
   }, []);
 
   // Monitor game loading state
@@ -96,7 +123,7 @@ export default function RemixedPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
-        <SnakeLoading text="Loading remix..." size="large" />
+        <PongLoading text="Generating your remix..." />
       </div>
     );
   }

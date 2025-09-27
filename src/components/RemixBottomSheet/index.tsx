@@ -44,40 +44,23 @@ export default function RemixBottomSheet({
           gameDescription
         );
 
-        // Call the create-remix API
-        const response = await fetch("/api/create-remix", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            gameCode: currentGame.code,
-            gameName: `${currentGame.name} Remix`,
-            gameDescription: gameDescription,
-          }),
-        });
+        // Store the remix parameters in sessionStorage for the remixed page
+        const remixParams = {
+          gameCode: currentGame.code,
+          gameName: `${currentGame.name} Remix`,
+          gameDescription: gameDescription,
+        };
 
-        if (response.ok) {
-          const remixGame = await response.json();
-          console.log("Remix created successfully:", remixGame);
+        sessionStorage.setItem("remixParams", JSON.stringify(remixParams));
 
-          // Store the remix game data in sessionStorage
-          sessionStorage.setItem("currentRemixGame", JSON.stringify(remixGame));
+        // Close the bottom sheet
+        onClose();
 
-          // Close the bottom sheet
-          onClose();
-
-          // Redirect to the remixed page
-          router.push("/remixed");
-        } else {
-          const error = await response.json();
-          console.error("Failed to create remix:", error);
-          alert("Failed to create remix. Please try again.");
-        }
+        // Redirect to the remixed page - it will call the API and show PongLoading
+        router.push("/remixed");
       } catch (error) {
-        console.error("Error creating remix:", error);
-        alert("An error occurred while creating the remix. Please try again.");
-      } finally {
+        console.error("Error preparing remix:", error);
+        alert("An error occurred while preparing the remix. Please try again.");
         setIsRemixing(false);
       }
     }
