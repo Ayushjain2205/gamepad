@@ -25,6 +25,10 @@ export default function TikTokFeed() {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [touchOffset, setTouchOffset] = useState(0);
+  const [displayGameIndex, setDisplayGameIndex] = useState(0);
+  const [isUIOpacityTransitioning, setIsUIOpacityTransitioning] =
+    useState(false);
+  const [isGameLoading, setIsGameLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -71,12 +75,20 @@ export default function TikTokFeed() {
     }
 
     const distance = touchStart - touchEnd;
-    const isUpSwipe = distance > 80;
-    const isDownSwipe = distance < -80;
+    const isUpSwipe = distance > 50;
+    const isDownSwipe = distance < -50;
 
     if (isUpSwipe && currentIndex < games.length - 1) {
       setIsTransitioning(true);
-      setCurrentIndex(currentIndex + 1);
+      setIsUIOpacityTransitioning(true);
+
+      // Update display with a slight delay to ensure smooth transition
+      setTimeout(() => {
+        setDisplayGameIndex(currentIndex + 1);
+        setCurrentIndex(currentIndex + 1);
+        setIsGameLoading(true);
+      }, 50);
+
       setTouchOffset(0);
 
       // Reset transition state after animation
@@ -85,10 +97,19 @@ export default function TikTokFeed() {
       }
       transitionTimeoutRef.current = setTimeout(() => {
         setIsTransitioning(false);
-      }, 300);
+        setIsUIOpacityTransitioning(false);
+      }, 500);
     } else if (isDownSwipe && currentIndex > 0) {
       setIsTransitioning(true);
-      setCurrentIndex(currentIndex - 1);
+      setIsUIOpacityTransitioning(true);
+
+      // Update display with a slight delay to ensure smooth transition
+      setTimeout(() => {
+        setDisplayGameIndex(currentIndex - 1);
+        setCurrentIndex(currentIndex - 1);
+        setIsGameLoading(true);
+      }, 50);
+
       setTouchOffset(0);
 
       // Reset transition state after animation
@@ -97,7 +118,8 @@ export default function TikTokFeed() {
       }
       transitionTimeoutRef.current = setTimeout(() => {
         setIsTransitioning(false);
-      }, 300);
+        setIsUIOpacityTransitioning(false);
+      }, 500);
     } else {
       // Snap back to current position
       setTouchOffset(0);
@@ -111,24 +133,38 @@ export default function TikTokFeed() {
 
       if (e.key === "ArrowUp" && currentIndex > 0) {
         setIsTransitioning(true);
-        setCurrentIndex(currentIndex - 1);
+        setIsUIOpacityTransitioning(true);
+
+        setTimeout(() => {
+          setDisplayGameIndex(currentIndex - 1);
+          setCurrentIndex(currentIndex - 1);
+          setIsGameLoading(true);
+        }, 50);
 
         if (transitionTimeoutRef.current) {
           clearTimeout(transitionTimeoutRef.current);
         }
         transitionTimeoutRef.current = setTimeout(() => {
           setIsTransitioning(false);
-        }, 300);
+          setIsUIOpacityTransitioning(false);
+        }, 500);
       } else if (e.key === "ArrowDown" && currentIndex < games.length - 1) {
         setIsTransitioning(true);
-        setCurrentIndex(currentIndex + 1);
+        setIsUIOpacityTransitioning(true);
+
+        setTimeout(() => {
+          setDisplayGameIndex(currentIndex + 1);
+          setCurrentIndex(currentIndex + 1);
+          setIsGameLoading(true);
+        }, 50);
 
         if (transitionTimeoutRef.current) {
           clearTimeout(transitionTimeoutRef.current);
         }
         transitionTimeoutRef.current = setTimeout(() => {
           setIsTransitioning(false);
-        }, 300);
+          setIsUIOpacityTransitioning(false);
+        }, 500);
       }
     };
 
@@ -144,6 +180,18 @@ export default function TikTokFeed() {
       }
     };
   }, []);
+
+  // Monitor game loading state and hide overlay when game is ready
+  useEffect(() => {
+    if (isGameLoading) {
+      // Wait for Sandpack to finish loading the new game
+      const loadingTimeout = setTimeout(() => {
+        setIsGameLoading(false);
+      }, 1200); // Increased timeout to ensure Sandpack finishes
+
+      return () => clearTimeout(loadingTimeout);
+    }
+  }, [currentIndex, isGameLoading]);
 
   if (isLoading) {
     return (
@@ -168,6 +216,7 @@ export default function TikTokFeed() {
   }
 
   const currentGame = games[currentIndex];
+  const displayGame = games[displayGameIndex];
 
   // Generate the game code with proper component name
   const componentMatch = currentGame.code.match(
@@ -213,16 +262,36 @@ export default App;`;
       <div className="flex-shrink-0 bg-gray-800/50 backdrop-blur-sm border-b border-gray-700/50 p-2 z-30">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-md">
-              {currentGame.name.charAt(0).toUpperCase()}
+            <div
+              className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-md transition-all duration-300 ease-out"
+              style={{
+                opacity: isUIOpacityTransitioning ? 0.3 : 1,
+                transform: isTransitioning ? "scale(0.95)" : "scale(1)",
+              }}
+            >
+              {displayGame.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white">
-                {currentGame.name}
+              <h1
+                className="text-xl font-bold text-white transition-all duration-300 ease-out"
+                style={{
+                  opacity: isUIOpacityTransitioning ? 0.2 : 1,
+                  transform: isTransitioning
+                    ? "translateX(-10px)"
+                    : "translateX(0)",
+                }}
+              >
+                {displayGame.name}
               </h1>
             </div>
           </div>
-          <div className="flex items-center space-x-3">
+          <div
+            className="flex items-center space-x-3 transition-all duration-300 ease-out"
+            style={{
+              opacity: isUIOpacityTransitioning ? 0.3 : 1,
+              transform: isTransitioning ? "translateX(10px)" : "translateX(0)",
+            }}
+          >
             {/* Leaderboard Icon */}
             <button className="hover:scale-110 transition-transform text-white">
               <svg
@@ -253,7 +322,7 @@ export default App;`;
         style={{
           transform: `translateY(${touchOffset}px)`,
           transition: isTransitioning
-            ? "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+            ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
             : "none",
         }}
       >
@@ -263,11 +332,22 @@ export default App;`;
           style={{
             transform: `translateY(${touchOffset}px)`,
             transition: isTransitioning
-              ? "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+              ? "transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)"
               : "none",
           }}
         >
+          {/* Game Loading Overlay */}
+          {isGameLoading && (
+            <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-20">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
+                <p className="text-white text-sm">Loading game...</p>
+              </div>
+            </div>
+          )}
+
           <Sandpack
+            key={`game-${currentIndex}`}
             template="react"
             files={{
               "/App.js": {
@@ -363,22 +443,42 @@ root.render(<App />);`,
       <div className="flex-shrink-0 bg-gray-800/50 backdrop-blur-sm border-t border-gray-700/50 p-4 z-30">
         <div className="flex items-center justify-between">
           {/* Swipe Indicator */}
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2 transition-all duration-300 ease-out"
+            style={{
+              opacity: isUIOpacityTransitioning ? 0.3 : 1,
+              transform: isTransitioning ? "translateY(-5px)" : "translateY(0)",
+            }}
+          >
             <div className="text-sm text-gray-400">Swipe up for next game</div>
             <div className="flex space-x-1">
               {games.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                    index === currentIndex ? "bg-blue-500" : "bg-gray-600"
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === displayGameIndex
+                      ? "bg-blue-500 scale-110"
+                      : "bg-gray-600"
                   }`}
+                  style={{
+                    transform:
+                      index === displayGameIndex && isTransitioning
+                        ? "scale(0.9)"
+                        : "scale(1)",
+                  }}
                 />
               ))}
             </div>
           </div>
 
           {/* Action Icons */}
-          <div className="flex items-center space-x-4">
+          <div
+            className="flex items-center space-x-4 transition-all duration-300 ease-out"
+            style={{
+              opacity: isUIOpacityTransitioning ? 0.3 : 1,
+              transform: isTransitioning ? "translateY(5px)" : "translateY(0)",
+            }}
+          >
             {/* Play Icon */}
             <button className="hover:scale-110 transition-transform text-white">
               <svg
