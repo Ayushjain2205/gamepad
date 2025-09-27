@@ -431,5 +431,11 @@ export const snakeGame: GameDefinition = {
     category: "Puzzle",
     tags: ["strategy", "growing", "navigation"],
     estimatedPlayTime: "5-10 minutes",
+    isPaid: true,
+    price: {
+      amount: "1.00",
+      currency: "USDC",
+      chainId: 1,
+    },
   },
 };

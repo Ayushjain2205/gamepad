@@ -5,6 +5,13 @@ export interface GameMetadata {
   category?: string;
   tags?: string[];
   estimatedPlayTime?: string;
+  // Payment fields
+  isPaid?: boolean;
+  price?: {
+    amount: string;
+    currency: "USDC";
+    chainId?: number;
+  };
 }
 
 export interface GameDefinition {

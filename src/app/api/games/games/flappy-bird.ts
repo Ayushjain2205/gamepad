@@ -260,5 +260,6 @@ export const flappyBirdGame: GameDefinition = {
     category: "Arcade",
     tags: ["endless", "timing", "obstacles"],
     estimatedPlayTime: "2-5 minutes",
+    isPaid: false,
   },
 };

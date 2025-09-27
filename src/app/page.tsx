@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
 import WelcomePopup from "@/components/WelcomePopup";
+import { PaymentOverlay } from "@/components/PaymentOverlay";
 import Link from "next/link";
 
 interface Game {
@@ -17,6 +18,12 @@ interface Game {
     category?: string;
     tags?: string[];
     estimatedPlayTime?: string;
+    isPaid?: boolean;
+    price?: {
+      amount: string;
+      currency: "USDC";
+      chainId?: number;
+    };
   };
 }
 
@@ -34,6 +41,8 @@ export default function TikTokFeed() {
   const [isGameLoading, setIsGameLoading] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [purchasedGames, setPurchasedGames] = useState<string[]>([]);
+  const [showPaymentOverlay, setShowPaymentOverlay] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -44,6 +53,14 @@ export default function TikTokFeed() {
     { name: "Charlie", points: 750 },
     { name: "Diana", points: 620 },
   ];
+
+  // Load purchased games from localStorage
+  useEffect(() => {
+    const savedPurchases = localStorage.getItem("purchasedGames");
+    if (savedPurchases) {
+      setPurchasedGames(JSON.parse(savedPurchases));
+    }
+  }, []);
 
   // Fetch all games
   useEffect(() => {
@@ -279,6 +296,27 @@ export default function TikTokFeed() {
   const currentGame = games[currentIndex];
   const displayGame = games[displayGameIndex];
 
+  // Helper functions for payment handling
+  const isGamePurchased = (gameId: string) => {
+    return purchasedGames.includes(gameId);
+  };
+
+  const handlePaymentSuccess = () => {
+    const updatedPurchases = [...purchasedGames, currentGame.id];
+    setPurchasedGames(updatedPurchases);
+    localStorage.setItem("purchasedGames", JSON.stringify(updatedPurchases));
+    setShowPaymentOverlay(false);
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.error("Payment error:", error);
+    // Error handling is already done in PaymentOverlay component
+  };
+
+  const shouldShowPaymentOverlay = () => {
+    return currentGame?.metadata?.isPaid && !isGamePurchased(currentGame.id);
+  };
+
   // Generate the game code with proper component name
   const componentMatch = currentGame.code.match(
     /const\s+(\w+)\s*=\s*\(\)\s*=>/
@@ -408,6 +446,15 @@ export default App;`;
             <div className="absolute inset-0 bg-bg flex items-center justify-center z-20">
               <SnakeLoading text="Loading game..." size="medium" />
             </div>
+          )}
+
+          {/* Payment Overlay - only shows for paid games that aren't purchased */}
+          {shouldShowPaymentOverlay() && (
+            <PaymentOverlay
+              gameName={currentGame.name}
+              onPaymentSuccess={handlePaymentSuccess}
+              onPaymentError={handlePaymentError}
+            />
           )}
 
           <Sandpack
