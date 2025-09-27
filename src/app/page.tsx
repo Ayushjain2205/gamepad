@@ -42,7 +42,6 @@ export default function TikTokFeed() {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const [purchasedGames, setPurchasedGames] = useState<string[]>([]);
-  const [showPaymentOverlay, setShowPaymentOverlay] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -305,7 +304,6 @@ export default function TikTokFeed() {
     const updatedPurchases = [...purchasedGames, currentGame.id];
     setPurchasedGames(updatedPurchases);
     localStorage.setItem("purchasedGames", JSON.stringify(updatedPurchases));
-    setShowPaymentOverlay(false);
   };
 
   const handlePaymentError = (error: string) => {
