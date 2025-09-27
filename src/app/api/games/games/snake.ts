@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const snakeGame: GameDefinition = {
   id: "snake",
-  name: "Snake Game",
+  name: "🐍 Snake Game",
   code: `const SnakeGame = () => {
   const [snake, setSnake] = useState([{ x: 10, y: 10 }]);
   const [food, setFood] = useState({ x: 15, y: 15 });

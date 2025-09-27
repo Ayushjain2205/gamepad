@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const tapGame: GameDefinition = {
   id: "tap-game",
-  name: "Tap Game",
+  name: "👆 Tap Game",
   code: `const TapGame = () => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);

@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const pixelRunnerGame: GameDefinition = {
   id: "pixel-runner",
-  name: "Pixel Runner",
+  name: "🏃 Pixel Runner",
   code: `const PixelRunner = () => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);

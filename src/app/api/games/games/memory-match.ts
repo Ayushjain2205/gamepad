@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const memoryMatchGame: GameDefinition = {
   id: "memory-match",
-  name: "Memory Match",
+  name: "🧠 Memory Match",
   code: `const MemoryMatch = () => {
   const [cards, setCards] = useState([]);
   const [flippedCards, setFlippedCards] = useState([]);

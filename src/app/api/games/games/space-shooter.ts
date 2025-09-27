@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const spaceShooterGame: GameDefinition = {
   id: "space-shooter",
-  name: "Space Shooter",
+  name: "🚀 Space Shooter",
   code: `const SpaceShooter = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);

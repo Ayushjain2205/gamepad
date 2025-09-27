@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const wordleGame: GameDefinition = {
   id: "wordle",
-  name: "Word Game",
+  name: "📝 Word Game",
   code: `const WordleGame = () => {
   const [gameState, setGameState] = useState("playing"); // playing, won, lost
   const [currentGuess, setCurrentGuess] = useState("");

@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const slidingPuzzleGame: GameDefinition = {
   id: "sliding-puzzle",
-  name: "Image Puzzle",
+  name: "🧩 Sliding Puzzle",
   code: `const ImagePuzzle = () => {
   const [puzzle, setPuzzle] = useState([]);
   const [moves, setMoves] = useState(0);

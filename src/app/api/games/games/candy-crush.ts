@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const candyCrushGame: GameDefinition = {
   id: "candy-crush",
-  name: "Candy Crush",
+  name: "🍭 Candy Crush",
   code: `const CandyCrush = () => {
   const [board, setBoard] = useState([]);
   const [score, setScore] = useState(0);

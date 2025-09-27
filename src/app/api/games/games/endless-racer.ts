@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const endlessRacerGame: GameDefinition = {
   id: "endless-racer",
-  name: "3D Endless Racer",
+  name: "🏎️ 3D Endless Racer",
   code: `const EndlessRacer = () => {
   const canvasRef = useRef(null);
   const sceneRef = useRef(null);

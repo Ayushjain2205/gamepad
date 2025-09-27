@@ -13,48 +13,44 @@ export default function CreatePage() {
 
   const gameTemplates = [
     {
-      id: "3d-racer",
-      name: "3D Racer",
+      id: "flappy-bird",
+      name: "🐦 Flappy Bird",
     },
     {
-      id: "2d-platformer",
-      name: "2D Platformer",
+      id: "tap-game",
+      name: "👆 Tap Game",
     },
     {
-      id: "puzzle",
-      name: "Puzzle Game",
-    },
-    {
-      id: "strategy",
-      name: "Strategy",
+      id: "snake",
+      name: "🐍 Snake Game",
     },
     {
       id: "endless-racer",
-      name: "Endless Racer",
+      name: "🏎️ 3D Endless Racer",
     },
     {
       id: "candy-crush",
-      name: "Candy Crush",
+      name: "🍭 Candy Crush",
     },
     {
       id: "pixel-runner",
-      name: "Pixel Runner",
+      name: "🏃 Pixel Runner",
     },
     {
       id: "memory-match",
-      name: "Memory Match",
+      name: "🧠 Memory Match",
     },
     {
       id: "sliding-puzzle",
-      name: "Sliding Puzzle",
+      name: "🧩 Sliding Puzzle",
     },
     {
       id: "wordle",
-      name: "Wordle",
+      name: "📝 Word Game",
     },
     {
       id: "space-shooter",
-      name: "Space Shooter",
+      name: "🚀 Space Shooter",
     },
   ];
 

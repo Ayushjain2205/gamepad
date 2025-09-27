@@ -2,7 +2,7 @@ import { GameDefinition } from "../types";
 
 export const flappyBirdGame: GameDefinition = {
   id: "flappy-bird",
-  name: "Flappy Bird",
+  name: "🐦 Flappy Bird",
   code: `const FlappyBird = () => {
   const canvasRef = useRef(null);
   const [score, setScore] = useState(0);
