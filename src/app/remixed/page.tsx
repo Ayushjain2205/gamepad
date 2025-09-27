@@ -7,7 +7,7 @@ import RemixBottomSheet from "@/components/RemixBottomSheet";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-interface Game {
+interface RemixGame {
   id: string;
   name: string;
   code: string;
@@ -18,12 +18,13 @@ interface Game {
     category?: string;
     tags?: string[];
     estimatedPlayTime?: string;
+    isRemix?: boolean;
+    createdAt?: string;
   };
 }
 
-export default function GamePage() {
-  const [, setGames] = useState<Game[]>([]);
-  const [currentGame, setCurrentGame] = useState<Game | null>(null);
+export default function RemixedPage() {
+  const [remixGame, setRemixGame] = useState<RemixGame | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isGameLoading, setIsGameLoading] = useState(false);
   const [showPublishPopup, setShowPublishPopup] = useState(false);
@@ -36,34 +37,28 @@ export default function GamePage() {
   });
   const searchParams = useSearchParams();
 
-  // Fetch all games and find the specific one
+  // Get game data from sessionStorage
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await fetch("/api/games");
-        if (response.ok) {
-          const gamesData = await response.json();
-          setGames(gamesData);
+    const storedGame = sessionStorage.getItem("currentRemixGame");
 
-          // Get the game ID from URL params
-          const gameId = searchParams.get("id");
-          if (gameId) {
-            const game = gamesData.find((g: Game) => g.id === gameId);
-            if (game) {
-              setCurrentGame(game);
-              setIsGameLoading(true);
-            }
-          }
-        }
+    if (storedGame) {
+      try {
+        const gameData = JSON.parse(storedGame);
+        console.log("Remix game loaded from sessionStorage:", gameData);
+        setRemixGame(gameData);
+        setIsGameLoading(true);
+
+        // Clear the stored game after loading
+        sessionStorage.removeItem("currentRemixGame");
       } catch (error) {
-        console.error("Error fetching games:", error);
+        console.error("Error parsing remix game data:", error);
       } finally {
         setIsLoading(false);
       }
-    };
-
-    fetchGames();
-  }, [searchParams]);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
   // Monitor game loading state
   useEffect(() => {
@@ -78,13 +73,13 @@ export default function GamePage() {
 
   // Initialize publish options with current game name
   useEffect(() => {
-    if (currentGame) {
+    if (remixGame) {
       setPublishOptions((prev) => ({
         ...prev,
-        name: currentGame.name,
+        name: remixGame.name,
       }));
     }
-  }, [currentGame]);
+  }, [remixGame]);
 
   const handlePublishClick = () => {
     setShowPublishPopup(true);
@@ -92,7 +87,7 @@ export default function GamePage() {
 
   const handlePublishSubmit = () => {
     // TODO: Implement actual publishing logic
-    console.log("Publishing game with options:", publishOptions);
+    console.log("Publishing remix game with options:", publishOptions);
     setShowPublishPopup(false);
   };
 
@@ -103,20 +98,20 @@ export default function GamePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
-        <SnakeLoading text="Loading game..." size="large" />
+        <SnakeLoading text="Loading remix..." size="large" />
       </div>
     );
   }
 
-  if (!currentGame) {
+  if (!remixGame) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl text-text mb-4 font-heading">
-            Game not found
+            Remix not found
           </h1>
           <p className="text-text-muted font-display mb-6">
-            The requested game could not be found.
+            The requested remix could not be found.
           </p>
           <Link
             href="/"
@@ -130,30 +125,28 @@ export default function GamePage() {
   }
 
   // Generate the game code with proper component name
-  const componentMatch = currentGame.code.match(
-    /const\s+(\w+)\s*=\s*\(\)\s*=>/
-  );
+  const componentMatch = remixGame.code.match(/const\s+(\w+)\s*=\s*\(\)\s*=>/);
   let componentName;
 
-  if (currentGame.id === "endless-racer") {
+  if (remixGame.id === "endless-racer") {
     componentName = "EndlessRacer";
-  } else if (currentGame.id === "flappy-bird") {
+  } else if (remixGame.id === "flappy-bird") {
     componentName = "FlappyBird";
-  } else if (currentGame.id === "snake") {
+  } else if (remixGame.id === "snake") {
     componentName = "SnakeGame";
-  } else if (currentGame.id === "tap-game") {
+  } else if (remixGame.id === "tap-game") {
     componentName = "TapGame";
   } else if (componentMatch && componentMatch[1]) {
     componentName = componentMatch[1];
   } else {
-    componentName = currentGame.name
+    componentName = remixGame.name
       .replace(/\s+/g, "")
       .replace(/^[0-9]/, "Game$&");
   }
 
   const generatedCode = `import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-${currentGame.code}
+${remixGame.code}
 
 const App = () => {
   return <${componentName} />;
@@ -168,11 +161,11 @@ export default App;`;
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md">
-              {currentGame.name.charAt(0).toUpperCase()}
+              {remixGame.name.charAt(0).toUpperCase()}
             </div>
             <div>
               <h1 className="text-xl font-bold text-text font-heading">
-                {currentGame.name}
+                {remixGame.name}
               </h1>
             </div>
           </div>
@@ -201,12 +194,12 @@ export default App;`;
         {/* Game Loading Overlay */}
         {isGameLoading && (
           <div className="absolute inset-0 bg-bg flex items-center justify-center z-20">
-            <SnakeLoading text="Loading game..." size="medium" />
+            <SnakeLoading text="Loading remix..." size="medium" />
           </div>
         )}
 
         <Sandpack
-          key={`game-${currentGame.id}`}
+          key={`remix-${remixGame.id}`}
           template="react"
           files={{
             "/App.js": {
@@ -296,7 +289,7 @@ root.render(<App />);`,
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-700">
             <h2 className="text-xl font-bold text-text font-heading mb-4">
-              Publish Game
+              Publish Remix
             </h2>
 
             {/* Game Name Input */}
@@ -400,7 +393,7 @@ root.render(<App />);`,
       <RemixBottomSheet
         isVisible={showRemixSheet}
         onClose={() => setShowRemixSheet(false)}
-        currentGame={currentGame}
+        currentGame={remixGame}
       />
     </div>
   );

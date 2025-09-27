@@ -5,6 +5,7 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
 import WelcomePopup from "@/components/WelcomePopup";
 import { PaymentOverlay } from "@/components/PaymentOverlay";
+import RemixBottomSheet from "@/components/RemixBottomSheet";
 import Link from "next/link";
 
 interface Game {
@@ -41,6 +42,7 @@ export default function TikTokFeed() {
   const [isGameLoading, setIsGameLoading] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showWelcomePopup, setShowWelcomePopup] = useState(false);
+  const [showRemixSheet, setShowRemixSheet] = useState(false);
   const [purchasedGames, setPurchasedGames] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -410,12 +412,12 @@ export default App;`;
             </button>
 
             {/* Remix Button */}
-            <Link
-              href={`/remix?gameId=${displayGame.id}`}
+            <button
+              onClick={() => setShowRemixSheet(true)}
               className="pixelated-button px-3 py-1 text-sm font-medium transition-colors duration-200 font-heading"
             >
               Remix
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -706,6 +708,13 @@ root.render(<App />);`,
       <WelcomePopup
         isVisible={showWelcomePopup}
         onClose={() => setShowWelcomePopup(false)}
+      />
+
+      {/* Remix Bottom Sheet */}
+      <RemixBottomSheet
+        isVisible={showRemixSheet}
+        onClose={() => setShowRemixSheet(false)}
+        currentGame={displayGame}
       />
     </div>
   );
