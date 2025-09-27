@@ -24,7 +24,7 @@ export const Verify = () => {
     setButtonState("pending");
     setWhichVerification(verificationLevel);
     const result = await MiniKit.commandsAsync.verify({
-      action: "test-action", // Make sure to create this in the developer portal -> incognito actions
+      action: "not-a-bot", // Make sure to create this in the developer portal -> incognito actions
       verification_level: verificationLevel,
     });
     console.log(result.finalPayload);
@@ -33,7 +33,7 @@ export const Verify = () => {
       method: "POST",
       body: JSON.stringify({
         payload: result.finalPayload,
-        action: "test-action",
+        action: "not-a-bot",
       }),
     });
 
