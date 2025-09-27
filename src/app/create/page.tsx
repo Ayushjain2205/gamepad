@@ -2,10 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import PongLoading from "@/components/PongLoading";
 
 export default function CreatePage() {
   const [gameDescription, setGameDescription] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const router = useRouter();
 
   const gameTemplates = [
     {
@@ -73,10 +77,32 @@ export default function CreatePage() {
   const handleGenerateGame = () => {
     if (gameDescription.trim()) {
       console.log("Generating game from description:", gameDescription);
+      setIsGenerating(true);
     } else if (selectedTemplate) {
       console.log("Generating game from template:", selectedTemplate);
+      setIsGenerating(true);
     }
   };
+
+  const handleGameGenerated = () => {
+    // Redirect to the game page with the generated game
+    // For now, redirect to candy-crush game
+    // In the future, this could redirect with a specific gameId parameter
+    router.push("/game?id=candy-crush");
+  };
+
+  // Show loading screen when generating
+  if (isGenerating) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <PongLoading
+          text="Generating your amazing game..."
+          onComplete={handleGameGenerated}
+          duration={4000}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-bg">
