@@ -217,39 +217,10 @@ iframe body {
   background: transparent !important;
 }
 
-/* Force navigation icons to be strictly white */
-[data-worldcoin-tabs] svg,
-[data-worldcoin-tab-item] svg,
-[data-worldcoin-tabs] .iconoir-react,
-[data-worldcoin-tab-item] .iconoir-react,
-[data-worldcoin-tabs] [class*="iconoir"],
-[data-worldcoin-tab-item] [class*="iconoir"] {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
-}
-
-/* Additional targeting for Worldcoin UI Kit navigation */
-[data-worldcoin-tabs] * svg,
-[data-worldcoin-tab-item] * svg {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
-}
-
-/* Target the specific iconoir-react icons used in navigation */
-[data-worldcoin-tabs] svg[data-icon="home"],
-[data-worldcoin-tabs] svg[data-icon="bank"],
-[data-worldcoin-tabs] svg[data-icon="user"],
-[data-worldcoin-tab-item] svg[data-icon="home"],
-[data-worldcoin-tab-item] svg[data-icon="bank"],
-[data-worldcoin-tab-item] svg[data-icon="user"] {
-  color: #ffffff !important;
-  fill: #ffffff !important;
-  stroke: #ffffff !important;
-}
-
-/* Nuclear option - target all possible navigation icon selectors */
+/* HARDCODE NAVIGATION ICONS TO WHITE - NUCLEAR OPTION */
+/* Target everything in the navigation */
+[data-worldcoin-tabs],
+[data-worldcoin-tab-item],
 [data-worldcoin-tabs] *,
 [data-worldcoin-tab-item] *,
 [data-worldcoin-tabs] * *,
@@ -257,7 +228,21 @@ iframe body {
   color: #ffffff !important;
 }
 
-/* Specific targeting for iconoir-react components */
+/* Force ALL SVGs to be white */
+svg,
+svg *,
+[data-worldcoin-tabs] svg,
+[data-worldcoin-tab-item] svg,
+[data-worldcoin-tabs] svg *,
+[data-worldcoin-tab-item] svg * {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Target iconoir-react specifically */
+.iconoir-react,
+[class*="iconoir"],
 .iconoir-home,
 .iconoir-bank,
 .iconoir-user,
@@ -269,31 +254,51 @@ iframe body {
   stroke: #ffffff !important;
 }
 
-/* Target any SVG within navigation components */
-[data-worldcoin-tabs] svg,
-[data-worldcoin-tab-item] svg {
+/* Target any possible icon class */
+[class*="icon"],
+[class*="Icon"],
+[class*="ICON"] {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;
 }
 
-/* Additional miniapp-specific targeting */
-[data-worldcoin-tabs] [class*="icon"],
-[data-worldcoin-tab-item] [class*="icon"] {
+/* Force all elements with specific attributes */
+[data-icon],
+[data-testid*="icon"],
+[aria-label*="icon"] {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;
 }
 
-/* Final fallback - target any element that might contain navigation icons */
+/* Target any element that might be an icon */
+*[class*="home"],
+*[class*="bank"],
+*[class*="user"],
+*[class*="wallet"],
+*[class*="profile"] {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Force ALL navigation elements to be white */
 [data-worldcoin-tabs] *,
 [data-worldcoin-tab-item] * {
   color: #ffffff !important;
 }
 
-/* Ensure all SVG elements in navigation are white */
-[data-worldcoin-tabs] svg *,
-[data-worldcoin-tab-item] svg * {
+/* Force ALL SVGs everywhere to be white */
+svg {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Force iconoir-react icons to be white */
+.iconoir-react,
+[class*="iconoir"] {
   color: #ffffff !important;
   fill: #ffffff !important;
   stroke: #ffffff !important;

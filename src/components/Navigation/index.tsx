@@ -20,7 +20,12 @@ export const Navigation = () => {
         value="home"
         icon={
           <Home
-            style={{ color: "#ffffff", fill: "#ffffff", stroke: "#ffffff" }}
+            className="!text-white !fill-white !stroke-white"
+            style={{
+              color: "#ffffff !important",
+              fill: "#ffffff !important",
+              stroke: "#ffffff !important",
+            }}
           />
         }
         label="Home"
@@ -30,7 +35,12 @@ export const Navigation = () => {
         value="wallet"
         icon={
           <Bank
-            style={{ color: "#ffffff", fill: "#ffffff", stroke: "#ffffff" }}
+            className="!text-white !fill-white !stroke-white"
+            style={{
+              color: "#ffffff !important",
+              fill: "#ffffff !important",
+              stroke: "#ffffff !important",
+            }}
           />
         }
         label="Wallet"
@@ -39,7 +49,12 @@ export const Navigation = () => {
         value="profile"
         icon={
           <User
-            style={{ color: "#ffffff", fill: "#ffffff", stroke: "#ffffff" }}
+            className="!text-white !fill-white !stroke-white"
+            style={{
+              color: "#ffffff !important",
+              fill: "#ffffff !important",
+              stroke: "#ffffff !important",
+            }}
           />
         }
         label="Profile"
