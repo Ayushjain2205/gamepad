@@ -311,9 +311,12 @@ export default App;`;
             </button>
 
             {/* Remix Button */}
-            <button className="pixelated-button px-3 py-1 text-sm font-medium transition-colors duration-200 font-heading">
+            <Link
+              href={`/remix?gameId=${displayGame.id}`}
+              className="pixelated-button px-3 py-1 text-sm font-medium transition-colors duration-200 font-heading"
+            >
               Remix
-            </button>
+            </Link>
           </div>
         </div>
       </div>
