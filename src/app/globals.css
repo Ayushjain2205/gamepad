@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -63,8 +63,17 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
+}
+
+/* Verified state - black text */
+.verified {
+  --foreground: #171717;
+}
+
+.verified body {
+  color: var(--foreground);
 }
 
 body {
