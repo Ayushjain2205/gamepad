@@ -206,7 +206,7 @@ export default function TikTokFeed() {
 
   // Handle messages from sandboxed games
   useEffect(() => {
-    const handleGameMessage = (event: MessageEvent) => {
+    const handleGameMessage = async (event: MessageEvent) => {
       // Validate message structure
       if (!event.data || typeof event.data !== "object") return;
       if (!event.data.type || !event.data.data) return;
@@ -214,7 +214,36 @@ export default function TikTokFeed() {
       // Handle game score messages
       if (event.data.type === "GAME_SCORE") {
         console.log("Score received from game:", event.data.data);
-        // You can add more logic here like updating leaderboards, etc.
+
+        // Only call reward API if score is greater than 0
+        if (event.data.data.score > 0) {
+          // Call reward API with hardcoded addresses
+          try {
+            const rewardResponse = await fetch("/api/reward", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                token: "0xc784ecaf24152c3de97e9a3b86a509801393ae3d",
+                player: "0xCafa93E9985793E2475bD58B9215c21Dbd421fD0",
+                amount: event.data.data.score.toString(),
+              }),
+            });
+
+            if (rewardResponse.ok) {
+              const result = await rewardResponse.json();
+              console.log("Reward transaction successful:", result);
+            } else {
+              const error = await rewardResponse.json();
+              console.error("Reward transaction failed:", error);
+            }
+          } catch (error) {
+            console.error("Error calling reward API:", error);
+          }
+        } else {
+          console.log("Score is 0, skipping reward API call");
+        }
       }
     };
 
