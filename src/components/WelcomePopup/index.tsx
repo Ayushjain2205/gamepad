@@ -85,7 +85,7 @@ export default function WelcomePopup({
 
   return (
     <div
-      className={`fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-200 ${
+      className={`fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-200 ${
         isAnimating ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}
@@ -119,37 +119,24 @@ export default function WelcomePopup({
           </p>
 
           {/* Verify Button */}
-          <button
+          <div
             onClick={handleVerify}
-            disabled={isVerifying || verificationState === "pending"}
-            className={`w-full py-3 px-6 font-heading font-bold text-lg rounded-lg transition-all duration-200 ${
-              verificationState === "success"
-                ? "bg-green-600 text-white"
-                : verificationState === "failed"
-                ? "bg-red-600 text-white"
-                : verificationState === "pending"
-                ? "bg-yellow-600 text-white"
-                : "bg-accent text-[#202040] hover:bg-accent/80 hover:scale-105"
-            } ${isVerifying ? "animate-pulse" : ""}`}
-            style={{
-              boxShadow:
-                verificationState === "success"
-                  ? "0px 0px 20px rgba(34, 197, 94, 0.5)"
-                  : verificationState === "failed"
-                  ? "0px 0px 20px rgba(239, 68, 68, 0.5)"
-                  : verificationState === "pending"
-                  ? "0px 0px 20px rgba(234, 179, 8, 0.5)"
-                  : "0px 0px 15px rgba(0, 229, 255, 0.3)",
-            }}
+            className={`pixelated-button px-4 py-2 cursor-pointer ${
+              isVerifying || verificationState === "pending"
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
           >
-            {verificationState === "pending"
-              ? "Verifying..."
-              : verificationState === "success"
-              ? "✅ Verified!"
-              : verificationState === "failed"
-              ? "❌ Failed"
-              : "Verify"}
-          </button>
+            <span className="text-[#202040] font-heading text-lg font-bold">
+              {verificationState === "pending"
+                ? "Verifying..."
+                : verificationState === "success"
+                ? "✅ Verified!"
+                : verificationState === "failed"
+                ? "❌ Failed"
+                : "Verify"}
+            </span>
+          </div>
 
           {verificationState === "failed" && (
             <p className="text-red-400 font-display text-xs mt-2">
