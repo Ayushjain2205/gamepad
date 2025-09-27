@@ -14,6 +14,7 @@ export const candyCrushGame: GameDefinition = {
   const [matchedCandies, setMatchedCandies] = useState(new Set());
   const [isProcessingMatches, setIsProcessingMatches] = useState(false);
   const [explodingCandies, setExplodingCandies] = useState(new Set());
+  const scoreRef = useRef(0);
 
   const BOARD_SIZE = 6;
   const CANDY_TYPES = ['🍎', '🍊', '🍇', '🍓', '🍋', '🍌', '🍑', '🍒'];
@@ -45,6 +46,7 @@ export const candyCrushGame: GameDefinition = {
   const startGame = () => {
     setGameStarted(true);
     setScore(0);
+    scoreRef.current = 0;
     setMoves(30);
     setTargetScore(1000);
     setBoard(initializeBoard());
@@ -178,7 +180,11 @@ export const candyCrushGame: GameDefinition = {
         if (matches.size > 0) {
           // Process matches with animation
           const result = await processMatchesWithAnimation(newBoard);
-          setScore(prev => prev + result.score);
+          setScore(prev => {
+            const newScore = prev + result.score;
+            scoreRef.current = newScore;
+            return newScore;
+          });
         } else {
           // Swap back if no matches
           await new Promise(resolve => setTimeout(resolve, 300));
@@ -199,8 +205,28 @@ export const candyCrushGame: GameDefinition = {
     }
   };
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'candy-crush',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const isGameWon = score >= targetScore;
   const isGameLost = moves <= 0 && score < targetScore;
+
+  // Send score when game ends
+  useEffect(() => {
+    if (isGameWon || isGameLost) {
+      sendScoreMessage(scoreRef.current);
+    }
+  }, [isGameWon, isGameLost]);
 
   return (
     <div style={{

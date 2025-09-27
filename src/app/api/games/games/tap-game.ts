@@ -10,6 +10,7 @@ export const tapGame: GameDefinition = {
   const [gameOver, setGameOver] = useState(false);
   const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
   const [isPulsing, setIsPulsing] = useState(false);
+  const scoreRef = useRef(0);
 
   const moveTarget = useCallback(() => {
     if (!gameRunning) return;
@@ -29,7 +30,11 @@ export const tapGame: GameDefinition = {
     }
     if (!gameRunning) return;
     
-    setScore((prev) => prev + 1);
+    setScore((prev) => {
+      const newScore = prev + 1;
+      scoreRef.current = newScore;
+      return newScore;
+    });
     
     setIsPulsing(true);
     setTimeout(() => {
@@ -43,6 +48,7 @@ export const tapGame: GameDefinition = {
 
   const startGame = useCallback(() => {
     setScore(0);
+    scoreRef.current = 0;
     setTimeLeft(30);
     setGameOver(false);
     setGameRunning(true);
@@ -60,6 +66,7 @@ export const tapGame: GameDefinition = {
           if (prev <= 1) {
             setGameRunning(false);
             setGameOver(true);
+            sendScoreMessage(scoreRef.current);
             return 0;
           }
           return prev - 1;
@@ -69,8 +76,22 @@ export const tapGame: GameDefinition = {
     return () => clearInterval(timer);
   }, [gameRunning, timeLeft, moveTarget]);
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'tap-game',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setTimeLeft(30);
     setGameRunning(false);
     setGameOver(false);

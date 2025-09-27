@@ -10,6 +10,7 @@ export const snakeGame: GameDefinition = {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const scoreRef = useRef(0);
   const directionRef = useRef({ dx: 0, dy: 0 });
   const lastMoveTimeRef = useRef(0);
   const animationRef = useRef(null);
@@ -40,12 +41,14 @@ export const snakeGame: GameDefinition = {
 
       if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
         setGameOver(true);
+        sendScoreMessage(scoreRef.current);
         return prevSnake;
       }
 
       for (let i = 1; i < newSnake.length; i++) {
         if (head.x === newSnake[i].x && head.y === newSnake[i].y) {
           setGameOver(true);
+          sendScoreMessage(scoreRef.current);
           return prevSnake;
         }
       }
@@ -53,7 +56,11 @@ export const snakeGame: GameDefinition = {
       newSnake.unshift(head);
 
       if (head.x === food.x && head.y === food.y) {
-        setScore((prev) => prev + 1);
+        setScore((prev) => {
+          const newScore = prev + 1;
+          scoreRef.current = newScore;
+          return newScore;
+        });
         randomFood();
       } else {
         newSnake.pop();
@@ -151,12 +158,26 @@ export const snakeGame: GameDefinition = {
     };
   }, [gameStarted, gameOver, gameLoop]);
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'snake',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setSnake([{ x: 10, y: 10 }]);
     setDirection({ dx: 0, dy: 0 });
     directionRef.current = { dx: 0, dy: 0 };
     lastMoveTimeRef.current = 0;
     setScore(0);
+    scoreRef.current = 0;
     setGameOver(false);
     setGameStarted(false);
     randomFood();

@@ -11,6 +11,7 @@ export const endlessRacerGame: GameDefinition = {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const scoreRef = useRef(0);
   const [speed, setSpeed] = useState(2);
   const [touchStart, setTouchStart] = useState(null);
   const [currentSpeed, setCurrentSpeed] = useState(2);
@@ -365,7 +366,11 @@ export const endlessRacerGame: GameDefinition = {
         console.log('Removing obstacle at z =', obstacle.mesh.position.z);
         sceneRef.current.remove(obstacle.mesh);
         obstacles.splice(i, 1);
-        setScore(prev => prev + 10);
+        setScore(prev => {
+          const newScore = prev + 10;
+          scoreRef.current = newScore;
+          return newScore;
+        });
       }
     }
 
@@ -383,6 +388,7 @@ export const endlessRacerGame: GameDefinition = {
       
       if (distanceX < (CAR_WIDTH + OBSTACLE_WIDTH) / 2 && distanceZ < (CAR_HEIGHT + OBSTACLE_HEIGHT) / 2) {
         setGameOver(true);
+        sendScoreMessage(scoreRef.current);
         return;
       }
     }
@@ -430,8 +436,22 @@ export const endlessRacerGame: GameDefinition = {
     }
   }, [gameStarted, gameOver]);
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'endless-racer',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setGameOver(false);
     setGameStarted(false);
     setSpeed(2);

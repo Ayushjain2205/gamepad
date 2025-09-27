@@ -7,15 +7,39 @@ export const exampleGame: GameDefinition = {
   code: `const ExampleGame = () => {
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const scoreRef = useRef(0);
 
   const startGame = () => {
     setGameStarted(true);
     setScore(0);
+    scoreRef.current = 0;
+  };
+
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'example-game',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
   };
 
   const handleClick = () => {
     if (gameStarted) {
-      setScore(prev => prev + 1);
+      setScore(prev => {
+        const newScore = prev + 1;
+        scoreRef.current = newScore;
+        return newScore;
+      });
+      
+      // Send score message when reaching certain milestones (example: every 10 points)
+      if ((scoreRef.current % 10) === 0 && scoreRef.current > 0) {
+        sendScoreMessage(scoreRef.current);
+      }
     }
   };
 

@@ -14,6 +14,7 @@ export const spaceShooterGame: GameDefinition = {
   const [keys, setKeys] = useState({});
   const [isShooting, setIsShooting] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
+  const scoreRef = useRef(0);
   const gameRef = useRef(null);
   
   const PLAYER_SPEED = 5;
@@ -26,6 +27,7 @@ export const spaceShooterGame: GameDefinition = {
     setGameStarted(true);
     setGameOver(false);
     setScore(0);
+    scoreRef.current = 0;
     setLives(3);
     setPlayerX(250);
     setBullets([]);
@@ -80,7 +82,11 @@ export const spaceShooterGame: GameDefinition = {
             for (let bullet of prevBullets) {
               if (Math.abs(bullet.x - enemy.x) < 30 && Math.abs(bullet.y - enemy.y) < 30) {
                 hit = true;
-                setScore(prev => prev + 10);
+                setScore(prev => {
+                  const newScore = prev + 10;
+                  scoreRef.current = newScore;
+                  return newScore;
+                });
                 break;
               }
             }
@@ -122,6 +128,7 @@ export const spaceShooterGame: GameDefinition = {
             setLives(prev => prev - 1);
             if (lives <= 1) {
               setGameOver(true);
+              sendScoreMessage(scoreRef.current);
             }
           } else {
             newEnemies.push(enemy);
@@ -135,6 +142,19 @@ export const spaceShooterGame: GameDefinition = {
     return () => clearInterval(gameLoop);
   }, [gameStarted, gameOver, keys, playerX, lives, enemies, bullets]);
   
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'space-shooter',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setGameStarted(false);
     setGameOver(false);

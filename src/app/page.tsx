@@ -204,6 +204,24 @@ export default function TikTokFeed() {
     }
   }, [currentIndex, isGameLoading]);
 
+  // Handle messages from sandboxed games
+  useEffect(() => {
+    const handleGameMessage = (event: MessageEvent) => {
+      // Validate message structure
+      if (!event.data || typeof event.data !== "object") return;
+      if (!event.data.type || !event.data.data) return;
+
+      // Handle game score messages
+      if (event.data.type === "GAME_SCORE") {
+        console.log("Score received from game:", event.data.data);
+        // You can add more logic here like updating leaderboards, etc.
+      }
+    };
+
+    window.addEventListener("message", handleGameMessage);
+    return () => window.removeEventListener("message", handleGameMessage);
+  }, []);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-bg flex items-center justify-center">

@@ -10,6 +10,7 @@ export const slidingPuzzleGame: GameDefinition = {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
   const [selectedPiece, setSelectedPiece] = useState(null);
+  const scoreRef = useRef(0);
 
   // Simple image URL
   const imageUrl = "https://picsum.photos/300/300";
@@ -50,13 +51,31 @@ export const slidingPuzzleGame: GameDefinition = {
       const newPuzzle = [...puzzle];
       [newPuzzle[selectedPiece], newPuzzle[clickedIndex]] = [newPuzzle[clickedIndex], newPuzzle[selectedPiece]];
       setPuzzle(newPuzzle);
-      setMoves(prev => prev + 1);
+      setMoves(prev => {
+        const newScore = prev + 1;
+        scoreRef.current = newScore;
+        return newScore;
+      });
       setSelectedPiece(null);
       
       // Check if solved
       if (newPuzzle.every((piece, index) => piece === index)) {
         setGameCompleted(true);
+        sendScoreMessage(scoreRef.current);
       }
+    }
+  };
+
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'sliding-puzzle',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
     }
   };
 

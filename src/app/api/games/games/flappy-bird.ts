@@ -8,6 +8,7 @@ export const flappyBirdGame: GameDefinition = {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
+  const scoreRef = useRef(0);
   const gameStateRef = useRef({
     bird: { x: 80, y: 10, velocity: 0 },
     pipes: [],
@@ -21,10 +22,8 @@ export const flappyBirdGame: GameDefinition = {
   const PIPE_SPEED = 1;
 
   const jump = useCallback(() => {
-    console.log('Jump called!', { gameStarted, gameOver, JUMP });
     if (gameStarted && !gameOver) {
       gameStateRef.current.bird.velocity = JUMP;
-      console.log('Jump applied!', gameStateRef.current.bird.velocity);
     } else if (!gameStarted) {
       setGameStarted(true);
     } else if (gameOver) {
@@ -85,6 +84,8 @@ export const flappyBirdGame: GameDefinition = {
 
     if (bird.y + 30 >= canvas.height) {
       setGameOver(true);
+      // Send final score when bird hits ground
+      sendScoreMessage(scoreRef.current);
       return;
     }
 
@@ -107,16 +108,22 @@ export const flappyBirdGame: GameDefinition = {
       
       if (pipes[i].x + PIPE_WIDTH < 0) {
         pipes.splice(i, 1);
-        setScore((prev) => prev + 1);
+        setScore((prev) => {
+          const newScore = prev + 1;
+          scoreRef.current = newScore;
+          return newScore;
+        });
       }
     }
 
     pipes.forEach((pipe) => {
       if (bird.x < pipe.x + PIPE_WIDTH && bird.x + 30 > pipe.x) {
-        if (bird.y < pipe.topHeight || bird.y + 30 > pipe.bottomY) {
-          setGameOver(true);
-          return;
-        }
+      if (bird.y < pipe.topHeight || bird.y + 30 > pipe.bottomY) {
+        setGameOver(true);
+        // Send final score when game ends
+        sendScoreMessage(scoreRef.current);
+        return;
+      }
       }
     });
 
@@ -143,8 +150,22 @@ export const flappyBirdGame: GameDefinition = {
     };
   }, [gameStarted, gameOver, gameLoop]);
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'flappy-bird',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setGameOver(false);
     setGameStarted(false);
     gameStateRef.current.bird = { x: 80, y: 10, velocity: 0 };

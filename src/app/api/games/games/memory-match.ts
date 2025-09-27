@@ -12,6 +12,7 @@ export const memoryMatchGame: GameDefinition = {
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
+  const scoreRef = useRef(0);
 
   // Card symbols for matching
   const symbols = ['🎮', '🎯', '🎲', '🎪', '🎨', '🎵', '🎸', '🎺', '🎻', '🎹', '🎤', '🎧'];
@@ -49,6 +50,7 @@ export const memoryMatchGame: GameDefinition = {
       return () => clearTimeout(timer);
     } else if (timeLeft === 0) {
       setGameCompleted(true);
+      sendScoreMessage(scoreRef.current);
     }
   }, [gameStarted, gameCompleted, timeLeft]);
 
@@ -77,7 +79,11 @@ export const memoryMatchGame: GameDefinition = {
           )
         );
         setMatchedCards(prev => [...prev, firstId, secondId]);
-        setScore(prev => prev + 10);
+        setScore(prev => {
+          const newScore = prev + 10;
+          scoreRef.current = newScore;
+          return newScore;
+        });
         setFlippedCards([]); // Clear flipped cards immediately for matched pair
         
         // Check if game is completed
@@ -86,6 +92,7 @@ export const memoryMatchGame: GameDefinition = {
             const newMatchedCount = prevCards.filter(c => c.isMatched).length;
             if (newMatchedCount === cards.length) {
               setGameCompleted(true);
+              sendScoreMessage(scoreRef.current);
             }
             return prevCards;
           });
@@ -96,6 +103,19 @@ export const memoryMatchGame: GameDefinition = {
           setFlippedCards([]);
         }, 1000);
       }
+    }
+  };
+
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'memory-match',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
     }
   };
 

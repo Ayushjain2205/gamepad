@@ -9,6 +9,7 @@ export const pixelRunnerGame: GameDefinition = {
   const [gameOver, setGameOver] = useState(false);
   const [gameStarted, setGameStarted] = useState(false);
   const [jumping, setJumping] = useState(false);
+  const scoreRef = useRef(0);
   const gameStateRef = useRef({
     player: { 
       x: 80, 
@@ -361,12 +362,15 @@ export const pixelRunnerGame: GameDefinition = {
     // Check if player fell off the world
     if (player.y > level.height) {
       setGameOver(true);
+      sendScoreMessage(scoreRef.current);
       return;
     }
 
     // Simple scoring - just based on distance traveled
     if (player.x > score * 10) {
-      setScore(Math.floor(player.x / 10));
+      const newScore = Math.floor(player.x / 10);
+      setScore(newScore);
+      scoreRef.current = newScore;
     }
 
     // Generate new platforms as player progresses (endless)
@@ -441,8 +445,22 @@ export const pixelRunnerGame: GameDefinition = {
     }
   }, [gameStarted]);
 
+  const sendScoreMessage = (score) => {
+    if (window.parent) {
+      window.parent.postMessage({
+        type: 'GAME_SCORE',
+        data: { 
+          gameId: 'pixel-runner',
+          score: score,
+          timestamp: Date.now()
+        }
+      }, '*');
+    }
+  };
+
   const resetGame = () => {
     setScore(0);
+    scoreRef.current = 0;
     setGameOver(false);
     setJumping(false);
     gameStateRef.current = {
