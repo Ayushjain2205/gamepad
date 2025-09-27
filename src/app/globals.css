@@ -17,6 +17,19 @@
   --color-accent: #00e5ff;
   --color-text: #ffffff;
   --color-text-muted: #ffffffcc;
+
+  /* Font families for Tailwind classes */
+  --font-family-heading: var(--font-vt323);
+  --font-family-display: var(--font-share-tech-mono);
+}
+
+/* Custom font classes */
+.font-display {
+  font-family: var(--font-share-tech-mono), monospace;
+}
+
+.font-heading {
+  font-family: var(--font-vt323), monospace;
 }
 
 /* Pixelated button styling */

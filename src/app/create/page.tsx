@@ -3,34 +3,108 @@
 import { useState } from "react";
 
 export default function CreatePage() {
-  const [isCreating, setIsCreating] = useState(false);
+  const [gameDescription, setGameDescription] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
-  const handleCreateGame = () => {
-    setIsCreating(true);
-    // TODO: Implement game creation logic
-    setTimeout(() => setIsCreating(false), 2000);
+  const gameTemplates = [
+    {
+      id: "3d-racer",
+      name: "3D Racer",
+    },
+    {
+      id: "2d-platformer",
+      name: "2D Platformer",
+    },
+    {
+      id: "puzzle",
+      name: "Puzzle Game",
+    },
+    {
+      id: "strategy",
+      name: "Strategy",
+    },
+    {
+      id: "endless-racer",
+      name: "Endless Racer",
+    },
+    {
+      id: "candy-crush",
+      name: "Candy Crush",
+    },
+    {
+      id: "pixel-runner",
+      name: "Pixel Runner",
+    },
+    {
+      id: "memory-match",
+      name: "Memory Match",
+    },
+    {
+      id: "sliding-puzzle",
+      name: "Sliding Puzzle",
+    },
+    {
+      id: "wordle",
+      name: "Wordle",
+    },
+    {
+      id: "space-shooter",
+      name: "Space Shooter",
+    },
+  ];
+
+  const handleCreateFromDescription = () => {
+    // TODO: Implement game creation from description
+    console.log("Creating game from description:", gameDescription);
+  };
+
+  const handleCreateFromTemplate = (templateId: string) => {
+    // Toggle selection - if already selected, deselect it
+    if (selectedTemplate === templateId) {
+      setSelectedTemplate(null);
+      console.log("Deselected template:", templateId);
+    } else {
+      setSelectedTemplate(templateId);
+      console.log("Selected template:", templateId);
+    }
+  };
+
+  const handleGenerateGame = () => {
+    if (gameDescription.trim()) {
+      console.log("Generating game from description:", gameDescription);
+    } else if (selectedTemplate) {
+      console.log("Generating game from template:", selectedTemplate);
+    }
   };
 
   return (
     <div className="min-h-screen bg-bg">
       {/* Header */}
-      <div className="flex-shrink-0 bg-primary/50 backdrop-blur-sm border-b border-primary/30 p-4">
-        <div className="flex items-center justify-center">
-          <h1 className="text-2xl font-bold text-text font-heading">
-            Create Game
-          </h1>
-        </div>
+      <div className="flex items-center justify-center p-4 bg-primary/50 backdrop-blur-sm border-b border-primary/30">
+        <h1 className="text-2xl font-bold text-text font-heading">
+          Create Game
+        </h1>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-6 pb-20">
-        <div className="max-w-md mx-auto">
-          {/* Create Game Card */}
-          <div className="bg-primary/30 backdrop-blur-sm rounded-lg p-6 border border-primary/20">
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="p-4 pb-20">
+        {/* Game Description Input */}
+        <div className="mb-8">
+          <div className="relative bg-gray-800 rounded-lg p-4 min-h-[120px]">
+            <textarea
+              value={gameDescription}
+              onChange={(e) => setGameDescription(e.target.value)}
+              placeholder="Describe your game idea..."
+              className="w-full h-full bg-transparent text-text placeholder-text-muted resize-none outline-none text-sm font-display"
+              rows={4}
+            />
+
+            {/* Bottom controls */}
+            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-start">
+              {/* Image icon */}
+              <button className="text-text hover:text-text-muted transition-colors">
                 <svg
-                  className="w-8 h-8 text-bg"
+                  className="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -39,58 +113,59 @@ export default function CreatePage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M12 4v16m8-8H4"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-              </div>
-              <h2 className="text-xl font-bold text-text font-heading mb-2">
-                Build Your Game
-              </h2>
-              <p className="text-text-muted font-display text-sm">
-                Create and customize your own interactive game
-              </p>
-            </div>
-
-            <button
-              onClick={handleCreateGame}
-              disabled={isCreating}
-              className="w-full pixelated-button font-medium py-3 px-6 transition-colors duration-200 font-display disabled:opacity-50"
-            >
-              {isCreating ? "Creating..." : "Start Creating"}
-            </button>
-          </div>
-
-          {/* Features */}
-          <div className="mt-8 space-y-4">
-            <div className="bg-primary/20 rounded-lg p-4">
-              <h3 className="text-text font-heading font-semibold mb-2">
-                🎮 Game Types
-              </h3>
-              <p className="text-text-muted font-display text-sm">
-                Choose from various game templates and customize them
-              </p>
-            </div>
-
-            <div className="bg-primary/20 rounded-lg p-4">
-              <h3 className="text-text font-heading font-semibold mb-2">
-                🎨 Customization
-              </h3>
-              <p className="text-text-muted font-display text-sm">
-                Personalize colors, sounds, and game mechanics
-              </p>
-            </div>
-
-            <div className="bg-primary/20 rounded-lg p-4">
-              <h3 className="text-text font-heading font-semibold mb-2">
-                🚀 Publishing
-              </h3>
-              <p className="text-text-muted font-display text-sm">
-                Share your creation with the community
-              </p>
+              </button>
             </div>
           </div>
         </div>
+
+        {/* Template Section */}
+        <div className="pb-32">
+          <h2 className="text-xl font-bold text-text font-heading mb-4">
+            Or Start From a Template
+          </h2>
+
+          <div className="grid grid-cols-2 gap-4">
+            {gameTemplates.map((template) => (
+              <div
+                key={template.id}
+                onClick={() => handleCreateFromTemplate(template.id)}
+                className={`rounded-lg p-4 cursor-pointer transition-colors ${
+                  selectedTemplate === template.id
+                    ? "bg-accent/20 border-2 border-accent"
+                    : "bg-gray-800 hover:bg-gray-700"
+                }`}
+              >
+                <div className="text-center">
+                  <button
+                    className={`w-full text-sm font-display font-medium py-3 px-4 rounded transition-colors ${
+                      selectedTemplate === template.id
+                        ? "bg-accent text-bg hover:bg-accent/80"
+                        : "bg-gray-600 hover:bg-gray-500 text-text"
+                    }`}
+                  >
+                    {template.name}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* Generate Game Button - Fixed above bottom nav */}
+      {(gameDescription.trim() || selectedTemplate) && (
+        <div className="fixed bottom-20 left-0 right-0 p-4 z-20">
+          <button
+            onClick={handleGenerateGame}
+            className="w-full pixelated-button font-display font-medium py-4 px-6 text-lg transition-colors duration-200"
+          >
+            Generate Game
+          </button>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="fixed bottom-0 left-0 right-0 flex-shrink-0 bg-primary border-t border-primary/30 p-4 z-30">
