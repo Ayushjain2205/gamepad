@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -23,4 +23,316 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Remove all white backgrounds from Sandpack components */
+.sp-wrapper * {
+  background: transparent !important;
+}
+
+/* More aggressive iframe targeting */
+.sp-preview-iframe iframe {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Target all possible iframe containers */
+.sp-preview iframe,
+.sp-preview-iframe iframe,
+.sp-wrapper iframe,
+.sp-layout iframe {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  display: block !important;
+}
+
+/* Nuclear option - target everything inside Sandpack */
+.sp-wrapper *,
+.sp-wrapper *:before,
+.sp-wrapper *:after {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Specifically target iframe elements */
+iframe {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Try to override Sandpack's internal styling */
+.sp-preview-iframe {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Target the preview container */
+.sp-preview {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Force the entire Sandpack container to be borderless */
+.sp-wrapper .sp-layout .sp-preview {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Target iframe content specifically */
+.sp-wrapper iframe {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Force iframe body to be transparent and remove default margin */
+.sp-wrapper iframe body {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Target iframe body more specifically */
+.sp-preview-iframe iframe body,
+.sp-preview iframe body,
+.sp-layout iframe body {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Nuclear option for iframe body */
+iframe body {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+}
+
+/* Ensure no borders anywhere */
+.sp-wrapper,
+.sp-layout,
+.sp-preview,
+.sp-preview-iframe,
+.sp-wrapper iframe,
+.sp-wrapper iframe body,
+.sp-wrapper iframe html {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Force iframe to be completely borderless */
+.sp-preview-iframe iframe {
+  border: 0 !important;
+  outline: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  background: transparent !important;
+}
+
+/* Target the actual iframe content */
+.sp-preview-iframe iframe[src] {
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+/* Sandpack customizations */
+.sp-wrapper {
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+.sp-layout {
+  border: none !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.sp-preview {
+  background: transparent !important;
+  height: 100% !important;
+  border: none !important;
+}
+
+.sp-preview-iframe {
+  border: none !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+/* Hide Sandpack's default header and editor */
+.sp-wrapper .sp-layout .sp-tabs {
+  display: none !important;
+}
+
+.sp-wrapper .sp-layout .sp-editor {
+  display: none !important;
+}
+
+.sp-wrapper .sp-layout .sp-console {
+  display: none !important;
+}
+
+/* Custom styling for better integration */
+.sp-wrapper .sp-layout .sp-preview {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Force preview-only layout */
+.sp-wrapper .sp-layout {
+  grid-template-columns: 1fr !important;
+  grid-template-areas: "preview" !important;
+  background: transparent !important;
+}
+
+/* Hide CodeSandbox UI elements - be more specific */
+.sp-navigator,
+.sp-refresh-button,
+.sp-tabs,
+.sp-console,
+.sp-run-button,
+.sp-stop-button,
+.sp-open-in-codesandbox,
+.sp-read-only,
+.sp-new-file,
+.sp-file-explorer,
+.sp-open-newtab {
+  display: none !important;
+}
+
+/* Hide specific buttons and links */
+.sp-wrapper button[title*="CodeSandbox"],
+.sp-wrapper button[title*="Open in CodeSandbox"],
+.sp-wrapper a[href*="codesandbox.io"],
+.sp-wrapper .sp-open-in-codesandbox-button {
+  display: none !important;
+}
+
+/* Force Sandpack to take full height */
+.sp-wrapper {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: calc(100vh - 8rem) !important;
+  background: transparent !important;
+}
+
+.sp-wrapper .sp-layout {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: calc(100vh - 8rem) !important;
+  background: transparent !important;
+}
+
+.sp-wrapper .sp-layout .sp-preview {
+  display: block !important;
+  height: 100% !important;
+  width: 100% !important;
+  min-height: calc(100vh - 8rem) !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+.sp-wrapper .sp-layout .sp-preview-iframe {
+  display: block !important;
+  height: 100% !important;
+  width: 100% !important;
+  min-height: calc(100vh - 8rem) !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+.sp-wrapper .sp-layout .sp-preview-iframe iframe {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: calc(100vh - 8rem) !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+/* Mobile-specific Sandpack fixes */
+@media (max-width: 768px) {
+  .sp-wrapper {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: calc(100vh - 8rem) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .sp-layout {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: calc(100vh - 8rem) !important;
+    background: transparent !important;
+  }
+
+  .sp-preview {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: calc(100vh - 8rem) !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  .sp-preview-iframe {
+    height: 100% !important;
+    width: 100% !important;
+    min-height: calc(100vh - 8rem) !important;
+    border: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  /* Ensure iframe content is properly sized */
+  .sp-preview-iframe iframe {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: calc(100vh - 8rem) !important;
+    border: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+
+  /* Better mobile touch handling */
+  .sp-preview-iframe iframe {
+    touch-action: manipulation !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+  }
 }
