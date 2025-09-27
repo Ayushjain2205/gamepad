@@ -25,6 +25,13 @@ export default function GamePage() {
   const [currentGame, setCurrentGame] = useState<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isGameLoading, setIsGameLoading] = useState(false);
+  const [showPublishPopup, setShowPublishPopup] = useState(false);
+  const [publishOptions, setPublishOptions] = useState({
+    name: "",
+    inGameToken: false,
+    ads: false,
+    paidPlay: false,
+  });
   const searchParams = useSearchParams();
 
   // Fetch all games and find the specific one
@@ -66,6 +73,30 @@ export default function GamePage() {
       return () => clearTimeout(loadingTimeout);
     }
   }, [isGameLoading]);
+
+  // Initialize publish options with current game name
+  useEffect(() => {
+    if (currentGame) {
+      setPublishOptions((prev) => ({
+        ...prev,
+        name: currentGame.name,
+      }));
+    }
+  }, [currentGame]);
+
+  const handlePublishClick = () => {
+    setShowPublishPopup(true);
+  };
+
+  const handlePublishSubmit = () => {
+    // TODO: Implement actual publishing logic
+    console.log("Publishing game with options:", publishOptions);
+    setShowPublishPopup(false);
+  };
+
+  const handlePublishCancel = () => {
+    setShowPublishPopup(false);
+  };
 
   if (isLoading) {
     return (
@@ -144,21 +175,12 @@ export default App;`;
             </div>
           </div>
           <div className="flex items-center gap-6">
-            {/* Leaderboard Icon */}
-            <button className="hover:scale-110 transition-transform text-text">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
+            {/* Publish Button */}
+            <button
+              onClick={handlePublishClick}
+              className="pixelated-button px-3 py-1 text-sm font-medium transition-colors duration-200 font-heading"
+            >
+              Publish
             </button>
 
             {/* Modify Button */}
@@ -266,6 +288,111 @@ root.render(<App />);`,
           </Link>
         </div>
       </div>
+
+      {/* Publish Popup */}
+      {showPublishPopup && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-700">
+            <h2 className="text-xl font-bold text-text font-heading mb-4">
+              Publish Game
+            </h2>
+
+            {/* Game Name Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-text mb-2 font-display">
+                Game Name
+              </label>
+              <input
+                type="text"
+                value={publishOptions.name}
+                onChange={(e) =>
+                  setPublishOptions((prev) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-text placeholder-gray-400 focus:outline-none focus:border-accent font-display"
+                placeholder="Enter game name"
+              />
+            </div>
+
+            {/* Publishing Options */}
+            <div className="space-y-3 mb-6">
+              <h3 className="text-sm font-medium text-text font-display">
+                Publishing Options
+              </h3>
+
+              {/* In-Game Token */}
+              <label className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={publishOptions.inGameToken}
+                  onChange={(e) =>
+                    setPublishOptions((prev) => ({
+                      ...prev,
+                      inGameToken: e.target.checked,
+                    }))
+                  }
+                  className="w-4 h-4 text-accent bg-gray-700 border-gray-600 rounded focus:ring-accent focus:ring-2"
+                />
+                <span className="text-text text-sm font-display">
+                  In-Game Token
+                </span>
+              </label>
+
+              {/* Ads */}
+              <label className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={publishOptions.ads}
+                  onChange={(e) =>
+                    setPublishOptions((prev) => ({
+                      ...prev,
+                      ads: e.target.checked,
+                    }))
+                  }
+                  className="w-4 h-4 text-accent bg-gray-700 border-gray-600 rounded focus:ring-accent focus:ring-2"
+                />
+                <span className="text-text text-sm font-display">Ads</span>
+              </label>
+
+              {/* Paid Play */}
+              <label className="flex items-center space-x-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={publishOptions.paidPlay}
+                  onChange={(e) =>
+                    setPublishOptions((prev) => ({
+                      ...prev,
+                      paidPlay: e.target.checked,
+                    }))
+                  }
+                  className="w-4 h-4 text-accent bg-gray-700 border-gray-600 rounded focus:ring-accent focus:ring-2"
+                />
+                <span className="text-text text-sm font-display">
+                  Paid Play
+                </span>
+              </label>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex space-x-3">
+              <button
+                onClick={handlePublishCancel}
+                className="flex-1 px-4 py-2 bg-gray-700 text-text rounded hover:bg-gray-600 transition-colors font-display"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handlePublishSubmit}
+                className="flex-1 pixelated-button font-heading font-medium"
+              >
+                Publish
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
