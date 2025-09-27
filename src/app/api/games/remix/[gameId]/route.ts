@@ -1,7 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // In-memory storage for remix games (in production, this would be a database)
-const remixGames = new Map<string, any>();
+const remixGames = new Map<
+  string,
+  {
+    id: string;
+    name: string;
+    code: string;
+    metadata: {
+      difficulty: string;
+      description: string;
+      icon: string;
+      category?: string;
+      tags?: string[];
+      estimatedPlayTime?: string;
+      isRemix?: boolean;
+      createdAt?: string;
+    };
+  }
+>();
 
 export async function GET(
   request: NextRequest,
@@ -56,7 +73,21 @@ export async function GET(
 }
 
 // Helper function to store a remix game (called by create-remix)
-export function storeRemixGame(game: any) {
+export function storeRemixGame(game: {
+  id: string;
+  name: string;
+  code: string;
+  metadata: {
+    difficulty: string;
+    description: string;
+    icon: string;
+    category?: string;
+    tags?: string[];
+    estimatedPlayTime?: string;
+    isRemix?: boolean;
+    createdAt?: string;
+  };
+}) {
   remixGames.set(game.id, game);
   console.log("Stored remix game:", game.id);
 }

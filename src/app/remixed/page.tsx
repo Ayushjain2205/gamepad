@@ -5,7 +5,6 @@ import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
 import RemixBottomSheet from "@/components/RemixBottomSheet";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 interface RemixGame {
   id: string;
@@ -35,7 +34,6 @@ export default function RemixedPage() {
     ads: false,
     paidPlay: false,
   });
-  const searchParams = useSearchParams();
 
   // Get game data from sessionStorage
   useEffect(() => {
