@@ -302,13 +302,7 @@ root.render(<App />);`,
               showConsole: false,
               showConsoleButton: false,
               layout: "preview",
-              showOpenInCodeSandbox: false,
               showReadOnly: false,
-              showNewFile: false,
-              showFileExplorer: false,
-              showRunButton: false,
-              showStopButton: false,
-              showOpenNewtab: false,
               bundlerURL: undefined,
             }}
             theme="dark"
