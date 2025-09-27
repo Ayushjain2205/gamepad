@@ -195,10 +195,10 @@ export default function TikTokFeed() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-white text-lg font-display">Loading games...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent mx-auto mb-4"></div>
+          <p className="text-text text-lg font-display">Loading games...</p>
         </div>
       </div>
     );
@@ -206,12 +206,12 @@ export default function TikTokFeed() {
 
   if (games.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-bg flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl text-white mb-4 font-heading">
+          <h1 className="text-2xl text-text mb-4 font-heading">
             No games available
           </h1>
-          <p className="text-gray-400 font-display">Check back later!</p>
+          <p className="text-text-muted font-display">Check back later!</p>
         </div>
       </div>
     );
@@ -255,17 +255,17 @@ export default App;`;
   return (
     <div
       ref={containerRef}
-      className="h-screen bg-gray-900 relative overflow-hidden flex flex-col"
+      className="h-screen bg-bg relative overflow-hidden flex flex-col"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       {/* Game Name Header */}
-      <div className="flex-shrink-0 bg-gray-800/50 backdrop-blur-sm border-b border-gray-700/50 p-2 z-30">
+      <div className="flex-shrink-0 bg-primary/50 backdrop-blur-sm border-b border-primary/30 p-2 z-30">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div
-              className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-md transition-all duration-300 ease-out"
+              className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md transition-all duration-300 ease-out"
               style={{
                 opacity: isUIOpacityTransitioning ? 0.3 : 1,
                 transform: isTransitioning ? "scale(0.95)" : "scale(1)",
@@ -275,7 +275,7 @@ export default App;`;
             </div>
             <div>
               <h1
-                className="text-xl font-bold text-white font-heading transition-all duration-300 ease-out"
+                className="text-xl font-bold text-text font-heading transition-all duration-300 ease-out"
                 style={{
                   opacity: isUIOpacityTransitioning ? 0.2 : 1,
                   transform: isTransitioning
@@ -295,7 +295,7 @@ export default App;`;
             }}
           >
             {/* Leaderboard Icon */}
-            <button className="hover:scale-110 transition-transform text-white">
+            <button className="hover:scale-110 transition-transform text-text">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -313,7 +313,7 @@ export default App;`;
 
             {/* Remix Button */}
             <button
-              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors duration-200"
+              className="px-3 py-1 bg-accent hover:bg-accent/80 text-bg text-sm font-medium rounded-full transition-colors duration-200"
               style={{ fontFamily: "var(--font-share-tech-mono)" }}
             >
               Remix
@@ -343,10 +343,10 @@ export default App;`;
         >
           {/* Game Loading Overlay */}
           {isGameLoading && (
-            <div className="absolute inset-0 bg-gray-900 flex items-center justify-center z-20">
+            <div className="absolute inset-0 bg-bg flex items-center justify-center z-20">
               <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto mb-2"></div>
-                <p className="text-white text-sm font-display">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-2"></div>
+                <p className="text-text text-sm font-display">
                   Loading game...
                 </p>
               </div>
@@ -410,8 +410,8 @@ root.render(<App />);`,
                 : "none",
             }}
           >
-            <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-              <div className="text-center text-white">
+            <div className="w-full h-full bg-primary flex items-center justify-center">
+              <div className="text-center text-text">
                 <div className="text-2xl mb-2">🎮</div>
                 <div className="text-lg font-semibold font-heading">
                   {games[currentIndex + 1].name}
@@ -433,8 +433,8 @@ root.render(<App />);`,
                 : "none",
             }}
           >
-            <div className="w-full h-full bg-gray-800 flex items-center justify-center">
-              <div className="text-center text-white">
+            <div className="w-full h-full bg-primary flex items-center justify-center">
+              <div className="text-center text-text">
                 <div className="text-2xl mb-2">🎮</div>
                 <div className="text-lg font-semibold font-heading">
                   {games[currentIndex - 1].name}
@@ -449,7 +449,7 @@ root.render(<App />);`,
       </div>
 
       {/* Swipe Section Footer */}
-      <div className="flex-shrink-0 bg-gray-800/50 backdrop-blur-sm border-t border-gray-700/50 p-4 z-30">
+      <div className="flex-shrink-0 bg-primary/50 backdrop-blur-sm border-t border-primary/30 p-4 z-30">
         <div className="flex items-center justify-between">
           {/* Swipe Indicator */}
           <div
@@ -459,7 +459,7 @@ root.render(<App />);`,
               transform: isTransitioning ? "translateY(-5px)" : "translateY(0)",
             }}
           >
-            <div className="text-sm text-gray-400 font-display">
+            <div className="text-sm text-text-muted font-display">
               Swipe up for next game
             </div>
             <div className="flex space-x-1">
@@ -468,8 +468,8 @@ root.render(<App />);`,
                   key={index}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === displayGameIndex
-                      ? "bg-blue-500 scale-110"
-                      : "bg-gray-600"
+                      ? "bg-accent scale-110"
+                      : "bg-primary/60"
                   }`}
                   style={{
                     transform:
@@ -491,7 +491,7 @@ root.render(<App />);`,
             }}
           >
             {/* Play Icon */}
-            <button className="hover:scale-110 transition-transform text-white">
+            <button className="hover:scale-110 transition-transform text-text">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -508,7 +508,7 @@ root.render(<App />);`,
             </button>
 
             {/* Create Icon */}
-            <button className="hover:scale-110 transition-transform text-white">
+            <button className="hover:scale-110 transition-transform text-text">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -525,7 +525,7 @@ root.render(<App />);`,
             </button>
 
             {/* Profile Icon */}
-            <button className="hover:scale-110 transition-transform text-white">
+            <button className="hover:scale-110 transition-transform text-text">
               <svg
                 className="w-6 h-6"
                 fill="none"

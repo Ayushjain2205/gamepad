@@ -10,6 +10,13 @@
   --color-foreground: var(--foreground);
   --font-heading: var(--font-vt323);
   --font-display: var(--font-share-tech-mono);
+
+  /* Custom color theme */
+  --color-bg: #0d1117;
+  --color-primary: #1e2a47;
+  --color-accent: #00e5ff;
+  --color-text: #ffffff;
+  --color-text-muted: #ffffffcc;
 }
 
 @media (prefers-color-scheme: dark) {
