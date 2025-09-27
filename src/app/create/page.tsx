@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function CreatePage() {
   const [gameDescription, setGameDescription] = useState("");
@@ -53,10 +54,10 @@ export default function CreatePage() {
     },
   ];
 
-  const handleCreateFromDescription = () => {
-    // TODO: Implement game creation from description
-    console.log("Creating game from description:", gameDescription);
-  };
+  // const handleCreateFromDescription = () => {
+  //   // TODO: Implement game creation from description
+  //   console.log("Creating game from description:", gameDescription);
+  // };
 
   const handleCreateFromTemplate = (templateId: string) => {
     // Toggle selection - if already selected, deselect it
@@ -171,7 +172,7 @@ export default function CreatePage() {
       <div className="fixed bottom-0 left-0 right-0 flex-shrink-0 bg-primary border-t border-primary/30 p-4 z-30">
         <div className="flex items-center justify-between px-8">
           {/* Home Icon */}
-          <a
+          <Link
             href="/"
             className="hover:scale-110 transition-transform text-text"
           >
@@ -181,19 +182,19 @@ export default function CreatePage() {
               <rect x="10" y="6" width="4" height="4" />
               <rect x="4" y="10" width="8" height="4" />
             </svg>
-          </a>
+          </Link>
 
           {/* Create Button */}
-          <a href="/create" className="hover:scale-110 transition-transform">
+          <Link href="/create" className="hover:scale-110 transition-transform">
             <div className="pixelated-button px-3 py-1">
               <span className="text-[#202040] font-heading text-sm font-bold">
                 Create
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Wallet Icon */}
-          <a
+          <Link
             href="/wallet"
             className="hover:scale-110 transition-transform text-text"
           >
@@ -203,7 +204,7 @@ export default function CreatePage() {
               <rect x="5" y="10" width="2" height="2" />
               <rect x="9" y="10" width="2" height="2" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

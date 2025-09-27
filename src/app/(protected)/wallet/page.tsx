@@ -1,11 +1,11 @@
 import { auth } from "@/auth";
-import { Page } from "@/components/PageLayout";
 import { Pay } from "@/components/Pay";
 import { Transaction } from "@/components/Transaction";
 import { UserInfo } from "@/components/UserInfo";
 import { Verify } from "@/components/Verify";
 import { ViewPermissions } from "@/components/ViewPermissions";
-import { Marble, TopBar } from "@worldcoin/mini-apps-ui-kit-react";
+import { Marble } from "@worldcoin/mini-apps-ui-kit-react";
+import Link from "next/link";
 
 export default async function WalletPage() {
   const session = await auth();
@@ -40,7 +40,7 @@ export default async function WalletPage() {
       <div className="fixed bottom-0 left-0 right-0 flex-shrink-0 bg-primary border-t border-primary/30 p-4 z-30">
         <div className="flex items-center justify-between px-8">
           {/* Home Icon */}
-          <a
+          <Link
             href="/"
             className="hover:scale-110 transition-transform text-text"
           >
@@ -50,19 +50,19 @@ export default async function WalletPage() {
               <rect x="10" y="6" width="4" height="4" />
               <rect x="4" y="10" width="8" height="4" />
             </svg>
-          </a>
+          </Link>
 
           {/* Create Button */}
-          <a href="/create" className="hover:scale-110 transition-transform">
+          <Link href="/create" className="hover:scale-110 transition-transform">
             <div className="pixelated-button px-3 py-1">
               <span className="text-[#202040] font-heading text-sm font-bold">
                 Create
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Wallet Icon */}
-          <a
+          <Link
             href="/wallet"
             className="hover:scale-110 transition-transform text-text"
           >
@@ -72,7 +72,7 @@ export default async function WalletPage() {
               <rect x="5" y="10" width="2" height="2" />
               <rect x="9" y="10" width="2" height="2" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

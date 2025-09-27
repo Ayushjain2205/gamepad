@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
+import Link from "next/link";
 
 interface Game {
   id: string;
@@ -442,7 +443,7 @@ root.render(<App />);`,
       <div className="flex-shrink-0 bg-primary border-t border-primary/30 p-4 z-30">
         <div className="flex items-center justify-between px-8">
           {/* Home Icon */}
-          <a
+          <Link
             href="/"
             className="hover:scale-110 transition-transform text-text"
             style={{
@@ -456,10 +457,10 @@ root.render(<App />);`,
               <rect x="10" y="6" width="4" height="4" />
               <rect x="4" y="10" width="8" height="4" />
             </svg>
-          </a>
+          </Link>
 
           {/* Create Button */}
-          <a
+          <Link
             href="/create"
             className="hover:scale-110 transition-transform"
             style={{
@@ -472,10 +473,10 @@ root.render(<App />);`,
                 Create
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Wallet Icon */}
-          <a
+          <Link
             href="/wallet"
             className="hover:scale-110 transition-transform text-text"
             style={{
@@ -489,7 +490,7 @@ root.render(<App />);`,
               <rect x="5" y="10" width="2" height="2" />
               <rect x="9" y="10" width="2" height="2" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
 

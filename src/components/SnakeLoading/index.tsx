@@ -13,13 +13,21 @@ interface Position {
   y: number;
 }
 
+// Square track directions: right, down, left, up
+const directions = [
+  { x: 1, y: 0 }, // right
+  { x: 0, y: 1 }, // down
+  { x: -1, y: 0 }, // left
+  { x: 0, y: -1 }, // up
+];
+
 export default function SnakeLoading({
   text = "Loading...",
   size = "medium",
   className = "",
 }: SnakeLoadingProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const [snake, setSnake] = useState<Position[]>([]);
   const [currentDirection, setCurrentDirection] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
@@ -32,14 +40,6 @@ export default function SnakeLoading({
   };
 
   const config = sizeConfig[size];
-
-  // Square track directions: right, down, left, up
-  const directions = [
-    { x: 1, y: 0 }, // right
-    { x: 0, y: 1 }, // down
-    { x: -1, y: 0 }, // left
-    { x: 0, y: -1 }, // up
-  ];
 
   // Initialize snake in a square track
   useEffect(() => {
