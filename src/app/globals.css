@@ -296,6 +296,25 @@ svg {
   stroke: #ffffff !important;
 }
 
+/* Force all textarea and input text to be white */
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+input[type="number"] {
+  color: #ffffff !important;
+}
+
+/* Force all textarea and input placeholders to be white */
+textarea::placeholder,
+input::placeholder {
+  color: #ffffff !important;
+  opacity: 0.7 !important;
+}
+
 /* Force iconoir-react icons to be white */
 .iconoir-react,
 [class*="iconoir"] {
