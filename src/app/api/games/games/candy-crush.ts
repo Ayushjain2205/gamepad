@@ -17,7 +17,7 @@ export const candyCrushGame: GameDefinition = {
   const scoreRef = useRef(0);
 
   const BOARD_SIZE = 6;
-  const CANDY_TYPES = ['🍎', '🍊', '🍇', '🍓', '🍋', '🍌', '🍑', '🍒'];
+  const CANDY_TYPES = ['🌹', '🌻', '🌷', '🌸', '🌺', '🌼', '🌿', '🌾'];
   const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
 
   const initializeBoard = () => {
