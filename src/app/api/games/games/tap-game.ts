@@ -231,5 +231,11 @@ export const tapGame: GameDefinition = {
     category: "Reaction",
     tags: ["timing", "reaction", "speed"],
     estimatedPlayTime: "30 seconds",
+    isPaid: true,
+    price: {
+      amount: "1.00",
+      currency: "USDC",
+      chainId: 1,
+    },
   },
 };
