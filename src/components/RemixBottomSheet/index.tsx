@@ -129,7 +129,7 @@ export default function RemixBottomSheet({
                 value={gameDescription}
                 onChange={(e) => setGameDescription(e.target.value)}
                 placeholder="Describe your remix idea or modifications..."
-                className="w-full h-full bg-transparent text-text placeholder-text-muted resize-none outline-none text-sm font-display"
+                className="w-full h-full bg-transparent text-white placeholder-white resize-none outline-none text-sm font-display"
                 rows={4}
               />
             </div>

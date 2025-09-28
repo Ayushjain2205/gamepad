@@ -36,7 +36,18 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Generate AI code using Qwen
     let generatedCode: string;
-    let gameMetadata: any;
+    let gameMetadata: {
+      name: string;
+      description: string;
+      category: string;
+      difficulty: string;
+      theme: string;
+      aiGenerated: boolean;
+      baseGame?: string;
+      inspiration?: string;
+      confidence: string;
+      createdAt: string;
+    };
 
     if (matchingResult && matchingResult.confidence === "high") {
       // Use the matched game as a strong base
@@ -175,10 +186,23 @@ export async function POST(request: NextRequest) {
 }
 
 // AI Code Generation Functions
+interface GameConcepts {
+  mechanics: string[];
+  themes: string[];
+  difficulty: "easy" | "medium" | "hard" | null;
+  style: string[];
+}
+
+interface BaseGame {
+  id: string;
+  name: string;
+  code: string;
+}
+
 async function generateGameCodeWithQwen(
   prompt: string,
-  baseGame: any,
-  concepts: any,
+  baseGame: BaseGame,
+  concepts: GameConcepts,
   isInspiration: boolean = false
 ): Promise<string> {
   try {
@@ -388,7 +412,7 @@ Generate the modified game code now:`;
 
 async function generateGameCodeFromScratch(
   prompt: string,
-  concepts: any
+  concepts: GameConcepts
 ): Promise<string> {
   try {
     console.log("=== AI CODE GENERATION FROM SCRATCH ===");
@@ -408,7 +432,7 @@ async function generateGameCodeFromScratch(
 
     console.log("Generated game name:", gameName);
 
-    let gameCode = `// Custom Game - Created from scratch
+    const gameCode = `// Custom Game - Created from scratch
 // User Request: ${prompt}
 // Generated on: ${new Date().toISOString()}
 

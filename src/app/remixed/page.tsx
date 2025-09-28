@@ -331,7 +331,7 @@ root.render(<App />);`,
                     name: e.target.value,
                   }))
                 }
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-text placeholder-gray-400 focus:outline-none focus:border-accent font-display"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-white focus:outline-none focus:border-accent font-display"
                 placeholder="Enter game name"
               />
             </div>

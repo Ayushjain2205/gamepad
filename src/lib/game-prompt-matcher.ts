@@ -213,8 +213,14 @@ const GAME_PATTERNS = {
   },
 };
 
+interface GamePatterns {
+  keywords: string[];
+  concepts: string[];
+  description: string;
+}
+
 // Function to calculate similarity between user prompt and game patterns
-function calculateSimilarity(prompt: string, patterns: any): number {
+function calculateSimilarity(prompt: string, patterns: GamePatterns): number {
   const lowerPrompt = prompt.toLowerCase();
   let score = 0;
 
@@ -244,9 +250,7 @@ function calculateSimilarity(prompt: string, patterns: any): number {
 }
 
 // Function to find the best matching game based on user prompt using Qwen AI
-export async function findBestMatchingGame(
-  prompt: string
-): Promise<{
+export async function findBestMatchingGame(prompt: string): Promise<{
   game: GameDefinition;
   score: number;
   confidence: "high" | "medium" | "low";
@@ -269,6 +273,7 @@ export async function findBestMatchingGame(
     }));
 
     // Create prompt for Qwen to analyze and match
+    // Note: In production, this would be used for actual AI matching
     const qwenPrompt = `You are a game analysis AI. Analyze the user's game request and match it to the most appropriate existing game template.
 
 User Request: "${prompt}"
@@ -292,6 +297,8 @@ Please respond with ONLY a JSON object in this exact format:
 }
 
 Be very strict about the JSON format. Do not include any other text.`;
+
+    console.log("Qwen prompt for matching:", qwenPrompt);
 
     // For now, simulate Qwen API call
     // In production, you would make an actual API call to Qwen
@@ -356,9 +363,7 @@ Be very strict about the JSON format. Do not include any other text.`;
 }
 
 // Fallback function using keyword matching
-async function findBestMatchingGameFallback(
-  prompt: string
-): Promise<{
+async function findBestMatchingGameFallback(prompt: string): Promise<{
   game: GameDefinition;
   score: number;
   confidence: "high" | "medium" | "low";
