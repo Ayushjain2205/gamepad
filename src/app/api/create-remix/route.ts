@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { storeRemixGame } from "../games/remix/[gameId]/route";
-import Together from "together-ai";
+import { storeRemixGame } from "../../../lib/remix-storage";
 
 // Schema for validating the request body
 const createRemixSchema = z.object({
@@ -33,7 +32,8 @@ export async function POST(request: NextRequest) {
       gameDescription,
     });
 
-    // Initialize Together AI
+    // Initialize Together AI with dynamic import
+    const { default: Together } = await import("together-ai");
     const together = new Together({
       apiKey: process.env.TOGETHER_API_KEY,
     });
@@ -87,10 +87,10 @@ IMPORTANT: Return ONLY the complete modified React component code. Do NOT includ
         // Remove any explanatory text that might come before the actual code
         // Look for the start of a React component (const, function, export, etc.)
         const codeStartPatterns = [
-          /^(.*?)(const\s+\w+\s*=)/s,
-          /^(.*?)(function\s+\w+)/s,
-          /^(.*?)(export\s+default)/s,
-          /^(.*?)(import\s+)/s,
+          /^([\s\S]*?)(const\s+\w+\s*=)/,
+          /^([\s\S]*?)(function\s+\w+)/,
+          /^([\s\S]*?)(export\s+default)/,
+          /^([\s\S]*?)(import\s+)/,
         ];
 
         for (const pattern of codeStartPatterns) {
@@ -105,8 +105,8 @@ IMPORTANT: Return ONLY the complete modified React component code. Do NOT includ
         // Remove any trailing explanatory text
         // Look for common patterns that indicate end of code
         const codeEndPatterns = [
-          /(\n\n[A-Z].*?$)/s, // Text starting with capital letter after double newline
-          /(\n\n[^a-zA-Z0-9\s].*?$)/s, // Text after double newline with special characters
+          /(\n\n[A-Z][\s\S]*?$)/, // Text starting with capital letter after double newline
+          /(\n\n[^a-zA-Z0-9\s][\s\S]*?$)/, // Text after double newline with special characters
         ];
 
         for (const pattern of codeEndPatterns) {

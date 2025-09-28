@@ -1,24 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-// In-memory storage for remix games (in production, this would be a database)
-const remixGames = new Map<
-  string,
-  {
-    id: string;
-    name: string;
-    code: string;
-    metadata: {
-      difficulty: string;
-      description: string;
-      icon: string;
-      category?: string;
-      tags?: string[];
-      estimatedPlayTime?: string;
-      isRemix?: boolean;
-      createdAt?: string;
-    };
-  }
->();
+import { getRemixGame } from "../../../../../lib/remix-storage";
 
 export async function GET(
   request: NextRequest,
@@ -41,7 +22,7 @@ export async function GET(
   }
 
   // Get game from remix storage
-  const game = remixGames.get(gameId);
+  const game = getRemixGame(gameId);
 
   if (!game) {
     console.log("Remix game not found for ID:", gameId);
@@ -70,29 +51,4 @@ export async function GET(
       Expires: "0",
     },
   });
-}
-
-// Helper function to store a remix game (called by create-remix)
-export function storeRemixGame(game: {
-  id: string;
-  name: string;
-  code: string;
-  metadata: {
-    difficulty: string;
-    description: string;
-    icon: string;
-    category?: string;
-    tags?: string[];
-    estimatedPlayTime?: string;
-    isRemix?: boolean;
-    createdAt?: string;
-  };
-}) {
-  remixGames.set(game.id, game);
-  console.log("Stored remix game:", game.id);
-}
-
-// Helper function to get all remix games (for debugging)
-export function getAllRemixGames() {
-  return Array.from(remixGames.values());
 }
