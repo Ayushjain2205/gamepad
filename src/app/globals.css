@@ -315,6 +315,33 @@ input::placeholder {
   opacity: 0.7 !important;
 }
 
+/* Force all button text to be white */
+button {
+  color: #ffffff !important;
+}
+
+/* Force all text in template tiles and cards to be white */
+[class*="template"],
+[class*="card"],
+[class*="tile"] {
+  color: #ffffff !important;
+}
+
+[class*="template"] *,
+[class*="card"] *,
+[class*="tile"] * {
+  color: #ffffff !important;
+}
+
+/* Force all text in grid items to be white */
+.grid > div {
+  color: #ffffff !important;
+}
+
+.grid > div * {
+  color: #ffffff !important;
+}
+
 /* Force iconoir-react icons to be white */
 .iconoir-react,
 [class*="iconoir"] {
