@@ -40,6 +40,35 @@ export default function GamePage() {
   useEffect(() => {
     const fetchGames = async () => {
       try {
+        // Check if this is a generated game
+        const isGenerated = searchParams.get("generated") === "true";
+
+        if (isGenerated) {
+          // Load generated game from localStorage
+          const generatedGameData = localStorage.getItem("generatedGame");
+          if (generatedGameData) {
+            const gameData = JSON.parse(generatedGameData);
+            const generatedGame: Game = {
+              id: gameData.gameId,
+              name: gameData.metadata.name,
+              code: gameData.generatedCode,
+              metadata: {
+                difficulty: gameData.metadata.difficulty,
+                description: gameData.metadata.description,
+                icon: "🤖", // AI generated icon
+                category: gameData.metadata.category,
+                tags: ["ai-generated", "custom"],
+                estimatedPlayTime: "2-5 minutes",
+              },
+            };
+            setCurrentGame(generatedGame);
+            setIsGameLoading(true);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        // Regular game loading
         const response = await fetch("/api/games");
         if (response.ok) {
           const gamesData = await response.json();
@@ -143,6 +172,15 @@ export default function GamePage() {
     componentName = "SnakeGame";
   } else if (currentGame.id === "tap-game") {
     componentName = "TapGame";
+  } else if (currentGame.id.startsWith("ai-game-")) {
+    // For AI generated games, extract component name from code or use a default
+    if (componentMatch && componentMatch[1]) {
+      componentName = componentMatch[1];
+      console.log("AI Generated game component name:", componentName);
+    } else {
+      componentName = "CustomGame";
+      console.log("Using fallback component name:", componentName);
+    }
   } else if (componentMatch && componentMatch[1]) {
     componentName = componentMatch[1];
   } else {

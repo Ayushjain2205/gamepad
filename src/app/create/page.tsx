@@ -70,13 +70,78 @@ export default function CreatePage() {
     }
   };
 
-  const handleGenerateGame = () => {
+  const handleGenerateGame = async () => {
     if (gameDescription.trim()) {
       console.log("Generating game from description:", gameDescription);
       setIsGenerating(true);
+
+      try {
+        const response = await fetch("/api/create-with-ai", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: gameDescription,
+            gameType: "ai-generated",
+            difficulty: "medium",
+            theme: "custom",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to generate game");
+        }
+
+        const result = await response.json();
+        console.log("AI Generation result:", result);
+
+        // Store the generated game data
+        localStorage.setItem("generatedGame", JSON.stringify(result));
+
+        // Redirect to game page
+        router.push(`/game?generated=true&gameId=${result.gameId}`);
+      } catch (error) {
+        console.error("Error generating game:", error);
+        setIsGenerating(false);
+        // You could add error handling UI here
+      }
     } else if (selectedTemplate) {
       console.log("Generating game from template:", selectedTemplate);
       setIsGenerating(true);
+
+      try {
+        // For templates, we can use the template name as the prompt
+        const response = await fetch("/api/create-with-ai", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: `Create a ${selectedTemplate} game with custom variations`,
+            gameType: "template-based",
+            difficulty: "medium",
+            theme: "default",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to generate game from template");
+        }
+
+        const result = await response.json();
+        console.log("Template-based generation result:", result);
+
+        // Store the generated game data
+        localStorage.setItem("generatedGame", JSON.stringify(result));
+
+        // Redirect to game page
+        router.push(`/game?generated=true&gameId=${result.gameId}`);
+      } catch (error) {
+        console.error("Error generating game from template:", error);
+        setIsGenerating(false);
+        // You could add error handling UI here
+      }
     }
   };
 
