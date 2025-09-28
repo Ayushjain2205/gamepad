@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Sandpack } from "@codesandbox/sandpack-react";
 import SnakeLoading from "@/components/SnakeLoading";
 import RemixBottomSheet from "@/components/RemixBottomSheet";
+import { getGameAvatar } from "@/lib/game-avatar";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -205,14 +206,21 @@ export default App;`;
       <div className="flex-shrink-0 bg-primary/50 backdrop-blur-sm border-b border-primary/30 p-2 z-30">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md">
-              {currentGame.name.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-text font-heading">
-                {currentGame.name}
-              </h1>
-            </div>
+            {(() => {
+              const { avatar, displayName } = getGameAvatar(currentGame.name);
+              return (
+                <>
+                  <div className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md">
+                    {avatar}
+                  </div>
+                  <div>
+                    <h1 className="text-xl font-bold text-text font-heading">
+                      {displayName}
+                    </h1>
+                  </div>
+                </>
+              );
+            })()}
           </div>
           <div className="flex items-center gap-6">
             {/* Publish Button */}

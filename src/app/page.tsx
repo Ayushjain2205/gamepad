@@ -6,6 +6,7 @@ import SnakeLoading from "@/components/SnakeLoading";
 import WelcomePopup from "@/components/WelcomePopup";
 import { PaymentOverlay } from "@/components/PaymentOverlay";
 import RemixBottomSheet from "@/components/RemixBottomSheet";
+import { getGameAvatar } from "@/lib/game-avatar";
 import Link from "next/link";
 
 interface Game {
@@ -361,28 +362,35 @@ export default App;`;
       <div className="flex-shrink-0 bg-primary/50 backdrop-blur-sm border-b border-primary/30 p-2 z-30">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div
-              className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md transition-all duration-300 ease-out"
-              style={{
-                opacity: isUIOpacityTransitioning ? 0.3 : 1,
-                transform: isTransitioning ? "scale(0.95)" : "scale(1)",
-              }}
-            >
-              {displayGame.name.charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <h1
-                className="text-xl font-bold text-text font-heading transition-all duration-300 ease-out"
-                style={{
-                  opacity: isUIOpacityTransitioning ? 0.2 : 1,
-                  transform: isTransitioning
-                    ? "translateX(-10px)"
-                    : "translateX(0)",
-                }}
-              >
-                {displayGame.name}
-              </h1>
-            </div>
+            {(() => {
+              const { avatar, displayName } = getGameAvatar(displayGame.name);
+              return (
+                <>
+                  <div
+                    className="w-10 h-10 bg-gradient-to-br from-accent to-accent/70 rounded-full flex items-center justify-center text-text font-bold text-md transition-all duration-300 ease-out"
+                    style={{
+                      opacity: isUIOpacityTransitioning ? 0.3 : 1,
+                      transform: isTransitioning ? "scale(0.95)" : "scale(1)",
+                    }}
+                  >
+                    {avatar}
+                  </div>
+                  <div>
+                    <h1
+                      className="text-xl font-bold text-text font-heading transition-all duration-300 ease-out"
+                      style={{
+                        opacity: isUIOpacityTransitioning ? 0.2 : 1,
+                        transform: isTransitioning
+                          ? "translateX(-10px)"
+                          : "translateX(0)",
+                      }}
+                    >
+                      {displayName}
+                    </h1>
+                  </div>
+                </>
+              );
+            })()}
           </div>
           <div
             className="flex items-center gap-6 transition-all duration-300 ease-out"
