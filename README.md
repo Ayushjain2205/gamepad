@@ -65,7 +65,3 @@ When a user enters a prompt, we **map it to the closest template** in our regist
 
 Gamepad is the **first bot-free onchain arcade.**
 It’s as easy as making a TikTok, but instead of videos you’re creating games you actually own, share, and monetize.
-
----
-
-Would you like me to also add a **"Tech Stack" section in bullets** (Next.js, MiniKit, Worldchain, Solidity, Sandpack, Together AI, Qwen) so it looks even more standard for GitHub?
